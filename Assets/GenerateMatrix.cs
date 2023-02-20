@@ -2,8 +2,18 @@ using UnityEngine;
 
 public class GenerateMatrix : MonoBehaviour
 {
+    // Set the amplitude and period of the sine wave
+    public float period = 4f; // time for one complete cycle in seconds
+
+    // Store the initial position of the container
+    private Vector3 initialPosition;
+
+
+
     [SerializeField]
     GameObject container;
+    [SerializeField]
+    GameObject axiscontainer;
     public int key = 3, depth = 0, step = 1;
     public string message = "0192837465";
     [SerializeField]
@@ -34,8 +44,10 @@ public class GenerateMatrix : MonoBehaviour
         return result;
     }
 
-    void Start()
+    void Awake()
     {
+        initialPosition = transform.position;
+        axiscontainer.SetActive(false);
         foreach (var element in message) {
             resstr+=$"{Encode(element-'0', key, depth, alphLen)}";
         }
@@ -72,7 +84,7 @@ public class GenerateMatrix : MonoBehaviour
                 {
                     var instance = Instantiate(
                         matrixElements[(y + x + z) % matrixElements.Length],
-                        new Vector3(x - 7.5f, -y + 4.0f, z - 2.5f),
+                        new Vector3(x - 4.5f, -y + 4.0f, z - 4.5f),
                         Quaternion.Euler(Vector3.zero)
                         );
 
@@ -84,5 +96,20 @@ public class GenerateMatrix : MonoBehaviour
             }
         }
         transform.position = new Vector3(0, 5.63f, 0);
+    }
+    void Update()
+    {
+        container.transform.Rotate(Vector3.up, .5f);
+        float time = Time.time;
+        float displacement = 7.0f+ Mathf.Sin(2f * Mathf.PI * time / period);
+
+
+        // Set the container's position to the initial position plus the displacement
+        int childCount = gameObject.transform.childCount;
+        transform.position = initialPosition + new Vector3(0f, displacement, 0f);
+        for (int i = 0; i < childCount; i++)
+        {
+            gameObject.transform.GetChild(i).gameObject.transform.Rotate(Vector3.down, .5f);
+        }
     }
 }
