@@ -3,10 +3,10 @@ using UnityEngine.EventSystems;
 
 public class Quit : MonoBehaviour, IPointerClickHandler
 {
-    GenerateMatrix gm;
+    Matrix gm;
     void Start() 
     {
-        gm = GameObject.Find("Container").GetComponent<GenerateMatrix>();
+        gm = GameObject.Find("Container").GetComponent<Matrix>();
 
     }
     public void OnPointerClick(PointerEventData eventData)

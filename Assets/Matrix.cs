@@ -1,34 +1,70 @@
 using UnityEngine;
 
-public class GenerateMatrix : MonoBehaviour
+public class Matrix : MonoBehaviour
 {
-    // Set the amplitude and period of the sine wave
-    public float period = 4f; // time for one complete cycle in seconds
-
+    // Set the amplitude and period of the sin wave
+    [SerializeField]
+    private float period = 4f; // time for one complete cycle in seconds
     // Store the initial position of the container
     private Vector3 initialPosition;
-
-
-
     [SerializeField]
     GameObject container;
+
     [SerializeField]
     GameObject axiscontainer;
-    public int key = 3, depth = 0, step = 1;
-    public string message = "0192837465";
+
     [SerializeField]
     GameObject[] matrixElements;
-    const int alphLen = 10;
-    readonly Color[] arrayOfColors = { Color.red, Color.blue, Color.green};
-    readonly int[] alphabet = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-    public int side = 1;
-    string resstr, resstr2;
 
+    const int alphLen = 10;
+    public int key = 3, depth = 0, step = 1, side = 1;
+    readonly int[] alphabet = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    readonly Color[] arrayOfColors = { Color.red, Color.blue, Color.green };
+
+    public string message = "0192837465", resstr, resstr2;
+
+    void Awake()
+    {
+        initialPosition = transform.position;
+        axiscontainer.SetActive(false);
+
+        foreach (var element in message)
+            resstr += $"{Encode(element - '0', key, depth, alphLen)}";
+
+        GenMatrix(matrixElements.Length, matrixElements.Length);
+
+        Debug.Log($"Сообщение: {message}");
+        Debug.Log($"Шифртекст: {resstr}");
+
+        foreach (var element in resstr)
+            resstr2 += $"{Decode(element - '0', key, depth, alphLen)}";
+
+        Debug.Log($"Расшифрованное сообщение: {resstr2}");
+
+    }
+    void Update()
+    {
+        RotateMatrix();
+    }
+
+    void RotateMatrix()
+    {
+        container.transform.Rotate(Vector3.up, .5f);
+        float time = Time.time;
+        float displacement = 7.0f + Mathf.Sin(2f * Mathf.PI * time / period);
+
+
+        int childCount = gameObject.transform.childCount;
+        transform.position = initialPosition + new Vector3(0f, displacement, 0f);
+        for (int i = 0; i < childCount; i++)
+        {
+            gameObject.transform.GetChild(i).gameObject.transform.Rotate(Vector3.down, .5f);
+        }
+    }
 
     int Encode(int message, int key, int depth, int alphLen)
     {
-        int P = side == 1 ? step : - step;
-        Debug.Log(P);
+        int P = side == 1 ? step : -step;
         var temp = (message + key + depth + P) % alphLen;
         if (temp < 0) temp = (temp + alphLen) % alphLen;
         int result = alphabet[temp];
@@ -44,24 +80,7 @@ public class GenerateMatrix : MonoBehaviour
         return result;
     }
 
-    void Awake()
-    {
-        initialPosition = transform.position;
-        axiscontainer.SetActive(false);
-        foreach (var element in message) {
-            resstr+=$"{Encode(element-'0', key, depth, alphLen)}";
-        }
-        Application.targetFrameRate = 30;
-        GenMatrix(matrixElements.Length, matrixElements.Length);
-        Debug.Log($"Сообщение: {message}");
-        Debug.Log($"Шифртекст: {resstr}");
-        foreach (var element in resstr)
-        {
-            resstr2 += $"{Decode(element-'0', key, depth, alphLen)}";
-        }
-        Debug.Log($"Расшифрованное сообщение: {resstr2}");
-        
-    }
+
     public void DestroyMatrix()
 
     {
@@ -74,8 +93,6 @@ public class GenerateMatrix : MonoBehaviour
 
     public void GenMatrix(int x_limit, int z_limit)
     {
-        transform.position = new Vector3(0, 0, 0);
-
         for (sbyte z = 0; z < z_limit; z++)
         {
             for (sbyte y = 0; y < matrixElements.Length; y++)
@@ -95,21 +112,6 @@ public class GenerateMatrix : MonoBehaviour
                 }
             }
         }
-        transform.position = new Vector3(0, 5.63f, 0);
     }
-    void Update()
-    {
-        container.transform.Rotate(Vector3.up, .5f);
-        float time = Time.time;
-        float displacement = 7.0f+ Mathf.Sin(2f * Mathf.PI * time / period);
 
-
-        // Set the container's position to the initial position plus the displacement
-        int childCount = gameObject.transform.childCount;
-        transform.position = initialPosition + new Vector3(0f, displacement, 0f);
-        for (int i = 0; i < childCount; i++)
-        {
-            gameObject.transform.GetChild(i).gameObject.transform.Rotate(Vector3.down, .5f);
-        }
-    }
 }
