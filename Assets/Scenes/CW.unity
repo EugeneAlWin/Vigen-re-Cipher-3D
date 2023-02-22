@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 261.9017, g: 324.45706, b: 429.4361, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -234,6 +234,7 @@ GameObject:
   - component: {fileID: 38618672}
   - component: {fileID: 38618671}
   - component: {fileID: 38618675}
+  - component: {fileID: 38618676}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -340,11 +341,24 @@ MonoBehaviour:
   keyInput: {fileID: 1603831816}
   depthInput: {fileID: 1615420360}
   stepInput: {fileID: 642763335}
+  resultInput: {fileID: 554212267}
   directionDropdown: {fileID: 1002477958}
   latToggle: {fileID: 1862579302}
   cyrToggle: {fileID: 1289819545}
   encode: {fileID: 2093091734}
   decode: {fileID: 943545543}
+--- !u!114 &38618676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38618670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7eb067b242bfb04bab065ed502bb3be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &74419676
 GameObject:
   m_ObjectHideFlags: 0

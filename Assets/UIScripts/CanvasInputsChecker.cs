@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
@@ -5,24 +6,27 @@ using UnityEngine.UI;
 
 public class CanvasInputsChecker : MonoBehaviour
 {
-    public TMP_InputField messageInput, keyInput, depthInput, stepInput;
+    public TMP_InputField messageInput, keyInput, depthInput, stepInput, resultInput;
     public TMP_Dropdown directionDropdown;
     public Toggle latToggle, cyrToggle;
     public Button encode, decode;
 
     private bool isLatSelected = false;
-    private string currentMessage="", currentKey="", 
-        currentDepth= $"<color=#fff>1</color>", 
-        currentStep= $"<color=#fff>1</color>";
+    private string currentMessage = "", currentKey = "",
+        currentDepth = $"<color=#fff>1</color>",
+        currentStep = $"<color=#fff>1</color>";
     private Directions currentDirection = Directions.Right;
     private readonly string[] unitysTrash = new string[] { "<color=#fff>", "</color>" };
-    private enum Directions: byte
+    private enum Directions : byte
     {
         Right,
         Left,
         Top,
         Bottom,
     }
+
+    private Algorithm algorithm;
+
     void Awake()
     {
         messageInput.onValueChanged.AddListener(delegate { MessageValueChanged(); });
@@ -35,9 +39,11 @@ public class CanvasInputsChecker : MonoBehaviour
         encode.onClick.AddListener(delegate { EncodeClick(); });
         decode.onClick.AddListener(delegate { DecodeClick(); });
         //---
-        depthInput.text= currentDepth;
+        depthInput.text = currentDepth;
         directionDropdown.value = (byte)currentDirection;
-        stepInput.text= currentStep;
+        stepInput.text = currentStep;
+        //---
+        algorithm = GetComponent<Algorithm>();
     }
 
     private void Update()
@@ -48,17 +54,17 @@ public class CanvasInputsChecker : MonoBehaviour
     private void MessageValueChanged()
     {
         string trimmedMessage = CanvasRegex.Remove(messageInput.text, unitysTrash);
-        if(
+        if (
             CanvasRegex.IsMatch(
             trimmedMessage.ToLower().Replace(" ", ""),
-            isLatSelected? CanvasRegex.latMessage:CanvasRegex.cyrMessage
+            isLatSelected ? CanvasRegex.latMessage : CanvasRegex.cyrMessage
             ))
-                currentMessage = "<color=#fff>" + trimmedMessage + "</color>";
+            currentMessage = "<color=#fff>" + trimmedMessage + "</color>";
         messageInput.text = currentMessage;
     }
     private void KeyValueChanged()
     {
-        string trimmedKey = CanvasRegex.Remove(keyInput.text, unitysTrash); 
+        string trimmedKey = CanvasRegex.Remove(keyInput.text, unitysTrash);
         if (
             CanvasRegex.IsMatch(
             trimmedKey.ToLower(),
@@ -70,7 +76,7 @@ public class CanvasInputsChecker : MonoBehaviour
     private void DepthValueChanged()
     {
         string trimmedDepth = CanvasRegex.Remove(depthInput.text, unitysTrash);
-        if (CanvasRegex.IsMatch(trimmedDepth, CanvasRegex.Depth) && trimmedDepth.Length<=2)
+        if (CanvasRegex.IsMatch(trimmedDepth, CanvasRegex.Depth) && trimmedDepth.Length <= 2)
             currentDepth = "<color=#fff>" + trimmedDepth + "</color>";
         depthInput.text = currentDepth;
     }
@@ -80,7 +86,7 @@ public class CanvasInputsChecker : MonoBehaviour
     }
     private void StepValueChanged()
     {
-        string trimmedStep = CanvasRegex.Remove(stepInput.text,unitysTrash);
+        string trimmedStep = CanvasRegex.Remove(stepInput.text, unitysTrash);
         if (CanvasRegex.IsMatch(trimmedStep, CanvasRegex.Step) && trimmedStep.Length <= 2)
             currentStep = "<color=#fff>" + trimmedStep + "</color>";
         stepInput.text = currentStep;
@@ -90,21 +96,45 @@ public class CanvasInputsChecker : MonoBehaviour
         isLatSelected = true;
         messageInput.text = "";
         keyInput.text = "";
-        
+
     }
     private void CyrValueChanged()
     {
-        isLatSelected = false; 
+        isLatSelected = false;
         messageInput.text = "";
         keyInput.text = "";
     }
-    private void DecodeClick()
-    {
-    }
-
     private void EncodeClick()
     {
-
+        if(CanvasRegex.Remove(currentMessage, unitysTrash).Replace(" ", "").ToLower()=="") return;
+        if(CanvasRegex.Remove(currentKey, unitysTrash).ToLower()=="") return;
+        var cipherText = new Dictionary<string, string>()
+        {
+            ["message"] = CanvasRegex.Remove(currentMessage,unitysTrash).Replace(" ","").ToLower(),
+            ["key"] = CanvasRegex.Remove(currentKey, unitysTrash).ToLower(),
+            ["depth"] = CanvasRegex.Remove(currentDepth, unitysTrash),
+            ["direction"] = (currentDirection == Directions.Right || currentDirection ==  Directions.Bottom)
+            ? "R":"L",
+            ["step"] = CanvasRegex.Remove(currentStep, unitysTrash),
+            ["alphabet"] = isLatSelected ? "Lat" : "Cyr",
+        };
+        string encodedMessage = algorithm.Encode(cipherText);
+        resultInput.text =$"<color=#FFF>{encodedMessage}</color>";
+    }
+    private void DecodeClick()  
+    {
+        var cipherText = new Dictionary<string, string>()
+        {
+            ["message"] = CanvasRegex.Remove(currentMessage, unitysTrash).Replace(" ", "").ToLower(),
+            ["key"] = CanvasRegex.Remove(currentKey, unitysTrash).ToLower(),
+            ["depth"] = CanvasRegex.Remove(currentDepth, unitysTrash),
+            ["direction"] = (currentDirection == Directions.Right || currentDirection == Directions.Bottom)
+            ? "R" : "L",
+            ["step"] = CanvasRegex.Remove(currentStep, unitysTrash),
+            ["alphabet"] = isLatSelected ? "Lat" : "Cyr",
+        };
+        var decodedMessage = algorithm.Decode(cipherText);
+        resultInput.text = $"<color=#FFF>{decodedMessage}</color>";
     }
 }
 
@@ -112,16 +142,16 @@ internal static class CanvasRegex
 {
     internal static readonly Regex latMessage = new(@"^[a-z]*$");
     internal static readonly Regex cyrMessage = new(@"^[à-ÿ]*$");
-    internal static readonly Regex latKey= new(@"^[a-z]*$");
-    internal static readonly Regex cyrKey= new(@"^[à-ÿ]*$");
-    internal static readonly Regex Depth= new(@"^[0-9]*$");
-    internal static readonly Regex Step= new(@"^[0-9]*$");
+    internal static readonly Regex latKey = new(@"^[a-z]*$");
+    internal static readonly Regex cyrKey = new(@"^[à-ÿ]*$");
+    internal static readonly Regex Depth = new(@"^[0-9]*$");
+    internal static readonly Regex Step = new(@"^[0-9]*$");
     internal static bool IsMatch(string text, Regex regex) => regex.IsMatch(text);
     internal static string Remove(string text, string[] whatToRemove)
     {
         string newStr = text;
         foreach (var str in whatToRemove)
-            newStr=newStr.Replace(str, "");
+            newStr = newStr.Replace(str, "");
         return newStr;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class Quit : MonoBehaviour, IPointerClickHandler
 {
     Matrix gm;
-    void Start() 
+    void Start()
     {
         gm = GameObject.Find("Container").GetComponent<Matrix>();
 
