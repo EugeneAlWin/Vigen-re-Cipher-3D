@@ -1,81 +1,73 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Matrix : MonoBehaviour
 {
-    // Set the amplitude and period of the sin wave
-    [SerializeField]
-    private float period = 4f; // time for one complete cycle in seconds
-    // Store the initial position of the container
+    [SerializeField] private float period = 4f; // time for one complete cycle in seconds
+    [SerializeField] private short matrixLen = 10;
+
+    public bool isInRotating = true;
+
     private Vector3 initialPosition;
-    [SerializeField]
-    GameObject container;
-
-    [SerializeField]
-    GameObject axiscontainer;
-
-    [SerializeField]
-    GameObject[] matrixElements;
-
-    readonly Color[] arrayOfColors = { Color.red, Color.blue, Color.green };
-
-    public string message = "0192837465", resstr, resstr2;
+    private static GameObject[] matrix;
+    private static readonly Color[] colors = { Color.red, Color.blue, Color.green };
+    private static readonly short colorsLen = (short)colors.Length;
+    private static readonly Dictionary<string, Transform> matrixDictionary = new();
 
     void Awake()
     {
+        matrix = new GameObject[matrixLen];
+        for (short i = 0; i < matrixLen; i++)
+            matrix[i] = (GameObject)Resources.Load($"Prefabs/Digits/{i}");
+
         initialPosition = transform.position;
-        axiscontainer.SetActive(false);
-        GenMatrix(matrixElements.Length, matrixElements.Length);
+        matrixLen = (short)matrix.Length;
+        GenMatrix(matrixLen, matrixLen, matrixLen);
     }
     void Update()
     {
-        RotateMatrix();
+        if (isInRotating) RotateMatrix(matrixLen, matrixLen, matrixLen);
     }
 
-    void RotateMatrix()
+    public void GenMatrix(short x_limit, short y_limit, short z_limit)
     {
-        container.transform.Rotate(Vector3.up, .5f);
-        float time = Time.time;
-        float displacement = 7.0f + Mathf.Sin(2f * Mathf.PI * time / period);
-
-
-        int childCount = gameObject.transform.childCount;
-        transform.position = initialPosition + new Vector3(0f, displacement, 0f);
-        for (int i = 0; i < childCount; i++)
-        {
-            gameObject.transform.GetChild(i).gameObject.transform.Rotate(Vector3.down, .5f);
-        }
-    }
-
-    public void DestroyMatrix()
-    {
-        int childCount = gameObject.transform.childCount;
-        for (int i = 0; i < childCount; i++)
-        {
-            Destroy(gameObject.transform.GetChild(i).gameObject);
-        }
-    }
-
-    public void GenMatrix(int x_limit, int z_limit)
-    {
-        for (sbyte z = 0; z < z_limit; z++)
-        {
-            for (sbyte y = 0; y < matrixElements.Length; y++)
-            {
-                for (sbyte x = 0; x < x_limit; x++)
+        for (short z = 0; z < z_limit; z++)
+            for (short y = 0; y < y_limit; y++)
+                for (short x = 0; x < x_limit; x++)
                 {
                     var instance = Instantiate(
-                        matrixElements[(y + x + z) % matrixElements.Length],
+                        matrix[(x + y + z) % matrixLen],
                         new Vector3(x - 4.5f, -y + 4.0f, z - 4.5f),
                         Quaternion.Euler(Vector3.zero)
                         );
-
                     instance.transform.localScale = new Vector3(0.03f, 0.03f, 0.03f);
                     instance.name = $"{z}{y}{x}";
-                    instance.GetComponent<Renderer>().material.color = arrayOfColors[z % arrayOfColors.Length];
+                    instance.GetComponent<Renderer>().material.color = colors[z % colorsLen];
                     instance.transform.parent = transform;
+                    matrixDictionary[$"{z}{y}{x}"] = instance.transform;
                 }
-            }
-        }
     }
 
+    void RotateMatrix(short x_limit, short y_limit, short z_limit)
+    {
+        float time = Time.time;
+        transform.Rotate(Vector3.up, .5f);
+        float displacement = 7.0f + Mathf.Sin(2f * Mathf.PI * time / period);
+        transform.position = initialPosition + new Vector3(0f, displacement, 0f);
+
+        for (short z = 0; z < z_limit; z++)
+            for (short y = 0; y < y_limit; y++)
+                for (short x = 0; x < x_limit; x++)
+                {
+                    matrixDictionary[$"{z}{y}{x}"].Rotate(Vector3.down, .5f);
+                }
+    }
+
+    public void DestroyMatrix(short x_limit, short y_limit, short z_limit)
+    {
+        for (short z = 0; z < z_limit; z++)
+            for (short y = 0; y < y_limit; y++)
+                for (short x = 0; x < x_limit; x++)
+                    Destroy(matrixDictionary[$"{z}{y}{x}"].gameObject);
+    }
 }
