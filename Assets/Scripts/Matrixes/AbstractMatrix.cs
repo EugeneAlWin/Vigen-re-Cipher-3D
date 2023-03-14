@@ -23,23 +23,23 @@ public abstract class AbstractMatrix : MonoBehaviour
             for (byte y = 0; y < y_limit; y++)
                 for (byte x = 0; x < x_limit; x++)
                 {
-                    var instance = Instantiate(
-                        matrix[(x + y + z) % MatrixLen],
-                    new Vector3(x - 4.5f, -y + 4.5f, z - 4.5f),
-                    ET.Rotation
-                        );
+                    var instance = Instantiate(matrix[(x + y + z) % MatrixLen]);
+
+                    instance.transform.parent = transform;
+                    instance.transform.SetPositionAndRotation(ET.GetPosition(x, y, z), ET.Rotation);
                     instance.transform.localScale = ET.Scale;
                     instance.name = GetElementName(x, y, z);
                     instance.GetComponent<Renderer>().material.color = colors[z % colorsLen];
-                    instance.transform.parent = transform;
+                    instance.SetActive(false);
                     matrixDictionary[GetElementName(x, y, z)] = instance.transform;
                 }
     }
-    internal void DestroyMatrix(byte x_limit, byte y_limit, byte z_limit)
+
+    internal void SetMatrixVisibillity(byte x_limit, byte y_limit, byte z_limit, bool isVisible)
     {
         for (byte z = 0; z < z_limit; z++)
             for (byte y = 0; y < y_limit; y++)
                 for (byte x = 0; x < x_limit; x++)
-                    Destroy(matrixDictionary[GetElementName(x, y, z)].gameObject);
+                    matrixDictionary[GetElementName(x, y, z)].gameObject.SetActive(isVisible);
     }
 }
