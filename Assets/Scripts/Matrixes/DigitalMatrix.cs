@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DigitalMatrix : AbstractMatrix
@@ -7,18 +8,22 @@ public class DigitalMatrix : AbstractMatrix
     [SerializeField] private float period = 4f; // time for one complete cycle in seconds
     [field: SerializeField] public override byte MatrixLen { get; set; } = 10;
     [field: SerializeField] public override string MatrixType { get; set; } = "DIGITAL";
+    internal override Dictionary<string, GameObject> MatrixDictionary { get; set; }
 
+    internal override GameObject[] Matrix { get; set; }
     internal override ElementTransform ET { get; set; }
 
     void Awake()
     {
-        matrix = new GameObject[MatrixLen];
+        MatrixDictionary = new Dictionary<string, GameObject>();
+        Matrix = new GameObject[MatrixLen];
         for (byte i = 0; i < MatrixLen; i++)
-            matrix[i] = (GameObject)Resources.Load($"Prefabs/Digits/{i}");
+            Matrix[i] = (GameObject)Resources.Load($"Prefabs/Digits/{i}");
 
         initialPosition = transform.position;
-        ET = new(Vector3.zero, new Vector3(0.03f, 0.03f, 0.03f));
+        ET = new(new Vector3(4.5f, 4.5f, 4.5f), Vector3.zero, new Vector3(0.03f, 0.03f, 0.03f));
         GenMatrix(MatrixLen, MatrixLen, MatrixLen);
+        SetZLayerVisibillity(0);
     }
     void Update()
     {
@@ -35,6 +40,6 @@ public class DigitalMatrix : AbstractMatrix
         for (byte z = 0; z < z_limit; z++)
             for (byte y = 0; y < y_limit; y++)
                 for (byte x = 0; x < x_limit; x++)
-                    matrixDictionary[GetElementName(x, y, z)].Rotate(Vector3.down, .5f);
+                    MatrixDictionary[GetElementName(x, y, z)].transform.Rotate(Vector3.down, .5f);
     }
 }
