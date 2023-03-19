@@ -38,6 +38,9 @@ public abstract class AbstractMatrix : MonoBehaviour
         for (byte z = 0; z < MatrixLen; z++)
             for (byte y = 0; y < MatrixLen; y++)
                 for (byte x = 0; x < MatrixLen; x++)
-                    MatrixDictionary[GetElementName(x, y, z)].SetActive(z > howMuchToHide);
+                {
+                    Debug.Log(MatrixDictionary[GetElementName(x, y, z)]);
+                    MatrixDictionary[GetElementName(x, y, z)].SetActive(z >= howMuchToHide);
+                }
     }
 }
