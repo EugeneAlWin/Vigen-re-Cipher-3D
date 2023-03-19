@@ -30,52 +30,54 @@ public class Algorithm : MonoBehaviour
     };
     private readonly string[] latAlphabet = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
 
-    public string Encode(Dictionary<string,string> cipherText)
+    public string Encode(CipherVector cipherText)
     {
-        string message = cipherText["message"];
-        string key = cipherText["key"];
-        int depth = int.Parse(cipherText["depth"]);
-        string direction = cipherText["direction"];
-        int step = int.Parse(cipherText["step"]);
-        string alphabet = cipherText["alphabet"];
+        string message = cipherText.Message;
+        string key = cipherText.Key;
+        int depth = cipherText.Depth;
+        char direction = cipherText.Direction;
+        int step = cipherText.Step;
+        string alphabetType = cipherText.AlphabetType;
 
         string encodedMessage = "";
-        var currentAlphabet = alphabet == "Lat" ? latAlphabet : cyrAlphabet;
-        var currentDict = alphabet == "Lat" ? latDictionary : cyrDictionary;
-        var alphabetLen = currentAlphabet.Length;
-        for(int i = 0; i<message.Length; i++) 
-        { 
-            var messageIndex = currentDict[$"{message[i]}"];
-            var keyIndex = currentDict[$"{key[i%key.Length]}"];
-            int P = direction == "R" ? step : -step;
-            var indexOfEncodedLetter = (messageIndex + keyIndex + depth + P) % alphabetLen;
-            if (indexOfEncodedLetter < 0) indexOfEncodedLetter = (indexOfEncodedLetter + alphabetLen) % alphabetLen;
-            encodedMessage+= currentAlphabet[indexOfEncodedLetter];
-        }
-        return encodedMessage;
-    }
-
-    public string Decode(Dictionary<string, string> cipherText)
-    {
-        string message = cipherText["message"];
-        string key = cipherText["key"];
-        int depth = int.Parse(cipherText["depth"]);
-        string direction = cipherText["direction"];
-        int step = int.Parse(cipherText["step"]);
-        string alphabet = cipherText["alphabet"];
-
-        string decodedMessage = "";
-        var currentAlphabet = alphabet == "Lat" ? latAlphabet : cyrAlphabet;
-        var currentDict = alphabet == "Lat" ? latDictionary : cyrDictionary;
+        var currentAlphabet = alphabetType == "Lat" ? latAlphabet : cyrAlphabet;
+        var currentDict = alphabetType == "Lat" ? latDictionary : cyrDictionary;
         var alphabetLen = currentAlphabet.Length;
 
         for (int i = 0; i < message.Length; i++)
         {
             var messageIndex = currentDict[$"{message[i]}"];
             var keyIndex = currentDict[$"{key[i % key.Length]}"];
-            int P = direction == "R" ? -step : step;
+            int P = direction == 'R' ? step : -step;
+            var indexOfEncodedLetter = (messageIndex + keyIndex + depth + P) % alphabetLen;
+            if (indexOfEncodedLetter < 0)
+                indexOfEncodedLetter = (indexOfEncodedLetter + alphabetLen) % alphabetLen;
+            encodedMessage += currentAlphabet[indexOfEncodedLetter];
+        }
+        return encodedMessage;
+    }
+
+    public string Decode(CipherVector cipherText)
+    {
+        string message = cipherText.Message;
+        string key = cipherText.Key;
+        int depth = cipherText.Depth;
+        char direction = cipherText.Direction;
+        int step = cipherText.Step;
+        string alphabetType = cipherText.AlphabetType;
+
+        string decodedMessage = "";
+        var currentAlphabet = alphabetType == "Lat" ? latAlphabet : cyrAlphabet;
+        var currentDict = alphabetType == "Lat" ? latDictionary : cyrDictionary;
+        var alphabetLen = currentAlphabet.Length;
+        for (int i = 0; i < message.Length; i++)
+        {
+            var messageIndex = currentDict[$"{message[i]}"];
+            var keyIndex = currentDict[$"{key[i % key.Length]}"];
+            int P = direction == 'R' ? -step : step;
             var indexOfDecodedLetter = (messageIndex + P - keyIndex - depth) % alphabetLen;
-            if (indexOfDecodedLetter < 0) indexOfDecodedLetter = (indexOfDecodedLetter + alphabetLen) % alphabetLen;
+            if (indexOfDecodedLetter < 0)
+                indexOfDecodedLetter = (indexOfDecodedLetter + alphabetLen) % alphabetLen;
             decodedMessage += currentAlphabet[indexOfDecodedLetter];
         }
         return decodedMessage;
