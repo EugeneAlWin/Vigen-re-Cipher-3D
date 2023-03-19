@@ -22,12 +22,12 @@ public class DigitalMatrix : AbstractMatrix
 
         initialPosition = transform.position;
         ET = new(new Vector3(4.5f, 4.5f, 4.5f), Vector3.zero, new Vector3(0.03f, 0.03f, 0.03f));
-        GenMatrix(MatrixLen, MatrixLen, MatrixLen);
-        SetZLayerVisibillity(0);
+        //GenMatrix(MatrixLen, MatrixLen, MatrixLen);
+        //SetZLayerVisibillity(0);
     }
     void Update()
     {
-        if (isInRotating) RotateMatrix(MatrixLen, MatrixLen, MatrixLen);
+        //if (isInRotating) RotateMatrix(MatrixLen, MatrixLen, MatrixLen);
     }
 
     void RotateMatrix(byte x_limit, byte y_limit, byte z_limit)
