@@ -7988,6 +7988,7 @@ GameObject:
   - component: {fileID: 1487126099}
   - component: {fileID: 1487126098}
   - component: {fileID: 1487126100}
+  - component: {fileID: 1487126101}
   m_Layer: 5
   m_Name: Examine_Panel
   m_TagString: Untagged
@@ -8066,6 +8067,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0350652028eab4f42ba89a9499cb27c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1487126101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487126096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be428174481e1b441b1e08db3ff9a312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1495026397
