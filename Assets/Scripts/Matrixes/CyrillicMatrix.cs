@@ -20,6 +20,7 @@ public class CyrillicMatrix : AbstractMatrix
 
     void Awake()
     {
+        Controller.stepsDelegate += OnStepChanged;
         MatrixDictionary = new Dictionary<string, GameObject>();
         Matrix = new GameObject[MatrixLen];
         for (byte i = 0; i < MatrixLen; i++)
@@ -28,7 +29,19 @@ public class CyrillicMatrix : AbstractMatrix
         initialPosition = transform.position;
         ET = new(new Vector3(150.5f, 4.5f, 4.5f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         GenMatrix(MatrixLen, MatrixLen, MatrixLen);
-        //SetZLayerVisibillity(0);
     }
-
+    private void OnStepChanged(Controller.Steps newStep)
+    {
+        switch (newStep)
+        {
+            case Controller.Steps.None:
+                SetZLayerVisibillity(MatrixLen);
+                break;
+            case Controller.Steps.First:
+                SetZLayerVisibillity(0, 4);
+                break;
+            default:
+                break;
+        }
+    }
 }
