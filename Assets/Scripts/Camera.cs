@@ -3,8 +3,14 @@ using UnityEngine;
 public class Camera : MonoBehaviour
 {
     [SerializeField] private float speed = 0.3f, rotationSpeed = 0.3f;
-    private static Vector3 cameraPos = new(11, 7, -24);
-    private static Quaternion cameraRot = Quaternion.Euler(0, -45.13f, 0);
+    public static Vector3 DigitalMatrixPosition { get; } = new(11, 7, -24);
+    public static Vector3 CyrillicMatrixPosition { get; } = new(-148.1f, -10.4f, -39.3f);
+    //--
+    public static Quaternion DigitalMatrixRotation { get; } = Quaternion.Euler(0, -45.13f, 0);
+    public static Quaternion CyrillicMatrixRotation { get; } = Quaternion.Euler(0, 0, 0);
+    //--
+    public static Vector3 cameraPos = DigitalMatrixPosition;
+    private static Quaternion cameraRot = DigitalMatrixRotation;
     private void Awake()
     {
         Application.targetFrameRate = 30;
