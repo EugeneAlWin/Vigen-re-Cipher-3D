@@ -32,12 +32,20 @@ public abstract class AbstractMatrix : MonoBehaviour
                     MatrixDictionary.Add(instance.name, instance);
                 }
     }
-
     internal void SetZLayerVisibillity(byte howMuchToHide = 0)
     {
         for (byte z = 0; z < MatrixLen; z++)
             for (byte y = 0; y < MatrixLen; y++)
                 for (byte x = 0; x < MatrixLen; x++)
-                    MatrixDictionary[GetElementName(x, y, z)].SetActive(z >= howMuchToHide);
+                    if (MatrixDictionary.TryGetValue(GetElementName(x, y, z), out GameObject gm))
+                        gm.SetActive(z >= howMuchToHide);
+    }
+    internal void SetZLayerVisibillity(byte start, byte end)
+    {
+        for (byte z = 0; z < MatrixLen; z++)
+            for (byte y = 0; y < MatrixLen; y++)
+                for (byte x = 0; x < MatrixLen; x++)
+                    if (MatrixDictionary.TryGetValue(GetElementName(x, y, z), out GameObject gm))
+                        gm.SetActive(z >= start && z <= end);
     }
 }
