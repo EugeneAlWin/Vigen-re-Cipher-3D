@@ -15,7 +15,7 @@ public class DigitalMatrix : AbstractMatrix
 
     void Awake()
     {
-        Controller.stepsDelegate += SetRotation;
+        Controller.stepsDelegate += OnStepChanged;
         MatrixDictionary = new Dictionary<string, GameObject>();
         Matrix = new GameObject[MatrixLen];
         for (byte i = 0; i < MatrixLen; i++)
@@ -29,7 +29,7 @@ public class DigitalMatrix : AbstractMatrix
 
     void Update()
     {
-       if (isInRotating) RotateMatrix(MatrixLen, MatrixLen, MatrixLen);
+        if (isInRotating) RotateMatrix(MatrixLen, MatrixLen, MatrixLen);
     }
 
     void RotateMatrix(byte x_limit, byte y_limit, byte z_limit)
@@ -44,9 +44,9 @@ public class DigitalMatrix : AbstractMatrix
                 for (byte x = 0; x < x_limit; x++)
                     MatrixDictionary[GetElementName(x, y, z)].transform.Rotate(Vector3.down, .5f);
     }
-    private void SetRotation(Controller.Steps newStep)
+    private void OnStepChanged(Controller.Steps newStep)
     {
         isInRotating = newStep == Controller.Steps.None;
-        SetZLayerVisibillity((byte)(isInRotating ?0:MatrixLen));
+        SetZLayerVisibillity(isInRotating ? byte.MinValue : MatrixLen);
     }
 }
