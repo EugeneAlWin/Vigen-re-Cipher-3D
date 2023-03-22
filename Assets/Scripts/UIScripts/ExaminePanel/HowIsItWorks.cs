@@ -7,6 +7,6 @@ public class HowIsItWorks : MonoBehaviour, IPointerClickHandler
     {
         ExaminePanel.SetPanelVisibility(true);
         Controller.stepsDelegate?.Invoke(Controller.Steps.First);
-        Camera.SetCameraPosition(new Vector3(-1569, 7, -24), Quaternion.identity);
+        Camera.SetCameraPosition(Camera.CyrillicMatrixPosition, Camera.CyrillicMatrixRotation);
     }
 }

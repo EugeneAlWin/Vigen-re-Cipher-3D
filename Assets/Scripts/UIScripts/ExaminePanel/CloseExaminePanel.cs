@@ -7,5 +7,6 @@ public class CloseExaminePanel : MonoBehaviour, IPointerClickHandler
     {
         ExaminePanel.SetPanelVisibility(false);
         Controller.stepsDelegate?.Invoke(Controller.Steps.None);
+        Camera.SetCameraPosition(Camera.DigitalMatrixPosition, Camera.DigitalMatrixRotation);
     }
 }
