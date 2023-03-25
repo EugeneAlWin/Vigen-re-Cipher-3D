@@ -28,28 +28,28 @@ public class Algorithm : MonoBehaviour
         {"u", 20}, {"v", 21}, {"w", 22}, {"x", 23}, {"y", 24},
         {"z", 25}
     };
-    private readonly string[] latAlphabet = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+    private readonly string[] latAlphabet = new string[]
+    {
+        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+        "n","o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
+    };
 
     public string Encode(CipherVector cipherText)
     {
-        string message = cipherText.Message;
-        string key = cipherText.Key;
-        int depth = cipherText.Depth;
-        char direction = cipherText.Direction;
-        int step = cipherText.Step;
-        string alphabetType = cipherText.AlphabetType;
-
-        string encodedMessage = "";
-        var currentAlphabet = alphabetType == "Lat" ? latAlphabet : cyrAlphabet;
+        var (message, key, depth, direction, step, alphabetType) = UnwrapCipherVector(cipherText);
+        var currentAlphabet = message == "Lat" ? latAlphabet : cyrAlphabet;
         var currentDict = alphabetType == "Lat" ? latDictionary : cyrDictionary;
         var alphabetLen = currentAlphabet.Length;
 
+        string encodedMessage = "";
         for (int i = 0; i < message.Length; i++)
         {
-            var messageIndex = currentDict[$"{message[i]}"];
-            var keyIndex = currentDict[$"{key[i % key.Length]}"];
-            int P = direction == 'R' ? step : -step;
+            var (messageIndex, keyIndex, P) = (
+               currentDict[$"{message[i]}"],
+               currentDict[$"{key[i % key.Length]}"],
+               direction == 'R' ? step : -step);
             var indexOfEncodedLetter = (messageIndex + keyIndex + depth + P) % alphabetLen;
+
             if (indexOfEncodedLetter < 0)
                 indexOfEncodedLetter = (indexOfEncodedLetter + alphabetLen) % alphabetLen;
             encodedMessage += currentAlphabet[indexOfEncodedLetter];
@@ -59,27 +59,26 @@ public class Algorithm : MonoBehaviour
 
     public string Decode(CipherVector cipherText)
     {
-        string message = cipherText.Message;
-        string key = cipherText.Key;
-        int depth = cipherText.Depth;
-        char direction = cipherText.Direction;
-        int step = cipherText.Step;
-        string alphabetType = cipherText.AlphabetType;
-
-        string decodedMessage = "";
+        var (message, key, depth, direction, step, alphabetType) = UnwrapCipherVector(cipherText);
         var currentAlphabet = alphabetType == "Lat" ? latAlphabet : cyrAlphabet;
         var currentDict = alphabetType == "Lat" ? latDictionary : cyrDictionary;
         var alphabetLen = currentAlphabet.Length;
+
+        string decodedMessage = "";
         for (int i = 0; i < message.Length; i++)
         {
-            var messageIndex = currentDict[$"{message[i]}"];
-            var keyIndex = currentDict[$"{key[i % key.Length]}"];
-            int P = direction == 'R' ? -step : step;
+            var (messageIndex, keyIndex, P) = (
+                currentDict[$"{message[i]}"],
+                currentDict[$"{key[i % key.Length]}"],
+                direction == 'R' ? -step : step);
             var indexOfDecodedLetter = (messageIndex + P - keyIndex - depth) % alphabetLen;
+
             if (indexOfDecodedLetter < 0)
                 indexOfDecodedLetter = (indexOfDecodedLetter + alphabetLen) % alphabetLen;
             decodedMessage += currentAlphabet[indexOfDecodedLetter];
         }
         return decodedMessage;
     }
+    private (string message, string key, int depth, char direction, int step, string alphabetType) UnwrapCipherVector(CipherVector cipherText)
+        => (cipherText.Message, cipherText.Key, cipherText.Depth, cipherText.Direction, cipherText.Step, cipherText.AlphabetType);
 }
