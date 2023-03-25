@@ -11,7 +11,8 @@ public partial class MainPanelInputsChecker : MonoBehaviour
     public Toggle latToggle, cyrToggle;
     public Button encode, decode;
     private static readonly string[] unitysTrash = new string[] { "<color=#fff>", "</color>" };
-
+    private readonly float waitTime = .5f;
+    private float timer = 0.0f;
     internal string CleanUp(string textToCleanUp)
     {
         string newStr = textToCleanUp;
@@ -27,8 +28,6 @@ public partial class MainPanelInputsChecker : MonoBehaviour
         depthInput.onValueChanged.AddListener(delegate { DepthValueChanged(); });
         directionDropdown.onValueChanged.AddListener(delegate { DirectionValueChanged(); });
         stepInput.onValueChanged.AddListener(delegate { StepValueChanged(); });
-        latToggle.onValueChanged.AddListener(delegate { LatValueChanged(); });
-        cyrToggle.onValueChanged.AddListener(delegate { CyrValueChanged(); });
         encode.onClick.AddListener(delegate { EncodeClick(); });
         decode.onClick.AddListener(delegate { DecodeClick(); });
         //---
@@ -40,6 +39,8 @@ public partial class MainPanelInputsChecker : MonoBehaviour
 
     private void Update()
     {
+        timer += Time.deltaTime;
+        if (timer <= waitTime) return;
         switch (CURRENT_ALPHABET)
         {
             case ALPHABETS.LATIN:
@@ -47,11 +48,13 @@ public partial class MainPanelInputsChecker : MonoBehaviour
                 cyrToggle.isOn = false;
                 break;
             case ALPHABETS.CYRILLIC:
-            default:
                 latToggle.isOn = false;
                 cyrToggle.isOn = true;
                 break;
+            default:
+                break;
         }
+        timer = 0;
     }
 
     private void EncodeClick()

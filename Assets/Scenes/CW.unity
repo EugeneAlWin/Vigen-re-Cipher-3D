@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.3369, g: 325.0498, b: 430.21924, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7655,6 +7655,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1289819544}
   - component: {fileID: 1289819545}
+  - component: {fileID: 1289819546}
   m_Layer: 5
   m_Name: CyrToggler
   m_TagString: Untagged
@@ -7731,6 +7732,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &1289819546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289819543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a07f2905ae72d44af4e6ae686f54be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1454455477
 GameObject:
   m_ObjectHideFlags: 0
@@ -11208,6 +11221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1862579301}
   - component: {fileID: 1862579302}
+  - component: {fileID: 1862579303}
   m_Layer: 5
   m_Name: LatToggler
   m_TagString: Untagged
@@ -11284,6 +11298,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &1862579303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862579300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85e9f47ce1585f4bbdabf0f41b006a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1868912383
 GameObject:
   m_ObjectHideFlags: 0

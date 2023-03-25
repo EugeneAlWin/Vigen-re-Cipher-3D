@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using static STATES;
 using static ENUMS;
+using static STATES;
 
 public partial class MainPanelInputsChecker : MonoBehaviour
 {
@@ -43,19 +43,6 @@ public partial class MainPanelInputsChecker : MonoBehaviour
         if (InputRegex.IsMatch(trimmedStep, InputRegex.Step) && trimmedStep.Length <= 2)
             CURRENT_STEP = "<color=#fff>" + trimmedStep + "</color>";
         stepInput.text = CURRENT_STEP;
-    }
-    private void LatValueChanged()
-    {
-        CURRENT_ALPHABET = ALPHABETS.LATIN;
-        messageInput.text = "";
-        keyInput.text = "";
-
-    }
-    private void CyrValueChanged()
-    {
-        CURRENT_ALPHABET = ALPHABETS.CYRILLIC;
-        messageInput.text = "";
-        keyInput.text = "";
     }
 }
 
