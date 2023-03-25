@@ -1,26 +1,10 @@
 using UnityEngine;
+using static ENUMS;
+using static STATES;
 
-public delegate void HowItWorksDelegate(Controller.Steps newStep, Controller.Actions action);
+public delegate void HowItWorksDelegate(STEPS newStep, ACTIONS action);
 public class Controller : MonoBehaviour
 {
-    public enum Steps
-    {
-        None,
-        First,
-        Second,
-        Third,
-        Fourth,
-        Fifth
-    }
-    public enum Actions
-    {
-        None,
-        Encoding,
-        Decoding
-    }
-    public static Steps CurrentStep { get; set; } = Steps.None;
-
-    public static Actions CurrentAction = Actions.None;
     public static HowItWorksDelegate HowItWorksDelegate;
 
     private void Awake()
@@ -28,9 +12,9 @@ public class Controller : MonoBehaviour
         HowItWorksDelegate += SetCurrentStepAndAction;
     }
 
-    void SetCurrentStepAndAction(Steps newStep, Actions action)
+    void SetCurrentStepAndAction(STEPS newStep, ACTIONS action)
     {
-        CurrentStep = newStep;
-        CurrentAction = action;
+        CURRENT_EXAMINE_STEP = newStep;
+        CURRENT_EXAMINE_ACTION = action;
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static ENUMS;
 
 public class CyrillicMatrix : AbstractMatrix
 {
@@ -22,14 +23,14 @@ public class CyrillicMatrix : AbstractMatrix
         ET = new(new Vector3(150.5f, 4.5f, 4.5f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         GenMatrix(MatrixLen, MatrixLen, MatrixLen);
     }
-    private void OnStepChanged(Controller.Steps newStep, Controller.Actions action)
+    private void OnStepChanged(STEPS newStep, ACTIONS action)
     {
         switch (newStep)
         {
-            case Controller.Steps.None:
+            case STEPS.NONE:
                 SetZLayerVisibillity(MatrixLen);
                 break;
-            case Controller.Steps.First:
+            case STEPS.FIRST:
                 SetZLayerVisibillity(0, 4);
                 break;
             default:

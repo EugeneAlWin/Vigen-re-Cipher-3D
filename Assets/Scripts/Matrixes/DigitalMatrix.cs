@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static ENUMS;
 
 public class DigitalMatrix : AbstractMatrix
 {
@@ -44,9 +45,9 @@ public class DigitalMatrix : AbstractMatrix
                 for (byte x = 0; x < x_limit; x++)
                     MatrixDictionary[GetElementName(x, y, z)].transform.Rotate(Vector3.down, .5f);
     }
-    private void OnStepChanged(Controller.Steps newStep, Controller.Actions action)
+    private void OnStepChanged(STEPS newStep, ACTIONS action)
     {
-        isInRotating = newStep == Controller.Steps.None;
+        isInRotating = newStep == STEPS.NONE;
         SetZLayerVisibillity(isInRotating ? byte.MinValue : MatrixLen);
     }
 }

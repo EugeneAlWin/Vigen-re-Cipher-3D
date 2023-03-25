@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using static STATES;
+using static ENUMS;
 
 public partial class MainPanelInputsChecker : MonoBehaviour
 {
@@ -10,8 +12,8 @@ public partial class MainPanelInputsChecker : MonoBehaviour
             trimmedMessage.ToLower().Replace(" ", ""),
             isLatSelected ? InputRegex.latMessage : InputRegex.cyrMessage
             ))
-            currentMessage = "<color=#fff>" + trimmedMessage + "</color>";
-        messageInput.text = currentMessage;
+            CURRENT_MESSAGE = "<color=#fff>" + trimmedMessage + "</color>";
+        messageInput.text = CURRENT_MESSAGE;
     }
     private void KeyValueChanged()
     {
@@ -21,26 +23,26 @@ public partial class MainPanelInputsChecker : MonoBehaviour
             trimmedKey.ToLower(),
             isLatSelected ? InputRegex.latKey : InputRegex.cyrKey
             ))
-            currentKey = "<color=#fff>" + trimmedKey + "</color>";
-        keyInput.text = currentKey;
+            CURRENT_KEY = "<color=#fff>" + trimmedKey + "</color>";
+        keyInput.text = CURRENT_KEY;
     }
     private void DepthValueChanged()
     {
         string trimmedDepth = CleanUp(depthInput.text);
         if (InputRegex.IsMatch(trimmedDepth, InputRegex.Depth) && trimmedDepth.Length <= 2)
-            currentDepth = "<color=#fff>" + trimmedDepth + "</color>";
-        depthInput.text = currentDepth;
+            CURRENT_DEPTH = "<color=#fff>" + trimmedDepth + "</color>";
+        depthInput.text = CURRENT_DEPTH;
     }
     private void DirectionValueChanged()
     {
-        currentDirection = (Directions)directionDropdown.value;
+        CURRENT_DIRECTION = (DIRECTIONS)directionDropdown.value;
     }
     private void StepValueChanged()
     {
         string trimmedStep = CleanUp(stepInput.text);
         if (InputRegex.IsMatch(trimmedStep, InputRegex.Step) && trimmedStep.Length <= 2)
-            currentStep = "<color=#fff>" + trimmedStep + "</color>";
-        stepInput.text = currentStep;
+            CURRENT_STEP = "<color=#fff>" + trimmedStep + "</color>";
+        stepInput.text = CURRENT_STEP;
     }
     private void LatValueChanged()
     {

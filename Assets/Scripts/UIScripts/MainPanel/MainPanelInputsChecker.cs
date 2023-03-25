@@ -1,6 +1,8 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static STATES;
+using static ENUMS;
 
 public partial class MainPanelInputsChecker : MonoBehaviour
 {
@@ -11,18 +13,6 @@ public partial class MainPanelInputsChecker : MonoBehaviour
     private static readonly string[] unitysTrash = new string[] { "<color=#fff>", "</color>" };
 
     private bool isLatSelected = false;
-    private string currentMessage = "", currentKey = "",
-        currentDepth = $"<color=#fff>1</color>",
-        currentStep = $"<color=#fff>1</color>";
-    private Directions currentDirection = Directions.Right;
-    private enum Directions : byte
-    {
-        Right,
-        Left,
-        Top,
-        Bottom,
-    }
-
     internal string CleanUp(string textToCleanUp)
     {
         string newStr = textToCleanUp;
@@ -43,9 +33,9 @@ public partial class MainPanelInputsChecker : MonoBehaviour
         encode.onClick.AddListener(delegate { EncodeClick(); });
         decode.onClick.AddListener(delegate { DecodeClick(); });
         //---
-        depthInput.text = currentDepth;
-        directionDropdown.value = (byte)currentDirection;
-        stepInput.text = currentStep;
+        depthInput.text = CURRENT_DEPTH;
+        directionDropdown.value = (byte)CURRENT_DIRECTION;
+        stepInput.text = CURRENT_STEP;
         //---
     }
 
@@ -57,16 +47,16 @@ public partial class MainPanelInputsChecker : MonoBehaviour
 
     private void EncodeClick()
     {
-        if (CleanUp(currentMessage).Replace(" ", "").ToLower() == "") return;
-        if (CleanUp(currentKey).ToLower() == "") return;
+        if (CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower() == "") return;
+        if (CleanUp(CURRENT_KEY).ToLower() == "") return;
         var cipherText = new CipherVector()
         {
-            Message = CleanUp(currentMessage).Replace(" ", "").ToLower(),
-            Key = CleanUp(currentKey).ToLower(),
-            Depth = int.Parse(CleanUp(currentDepth)),
-            Direction = (currentDirection == Directions.Right || currentDirection == Directions.Bottom)
+            Message = CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower(),
+            Key = CleanUp(CURRENT_KEY).ToLower(),
+            Depth = int.Parse(CleanUp(CURRENT_DEPTH)),
+            Direction = (CURRENT_DIRECTION == DIRECTIONS.RIGHT || CURRENT_DIRECTION == DIRECTIONS.BOTTOM)
             ? 'R' : 'L',
-            Step = int.Parse(CleanUp(currentStep)),
+            Step = int.Parse(CleanUp(CURRENT_STEP)),
             AlphabetType = isLatSelected ? "Lat" : "Cyr",
         };
         string encodedMessage = Algorithm.Encode(cipherText);
@@ -76,13 +66,13 @@ public partial class MainPanelInputsChecker : MonoBehaviour
     {
         var cipherText = new CipherVector()
         {
-            Message = CleanUp(currentMessage).Replace(" ", "").ToLower(),
-            Key = CleanUp(currentKey).ToLower(),
-            Depth = int.Parse(CleanUp(currentDepth)),
+            Message = CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower(),
+            Key = CleanUp(CURRENT_KEY).ToLower(),
+            Depth = int.Parse(CleanUp(CURRENT_DEPTH)),
             Direction = (
-            currentDirection == Directions.Right ||
-            currentDirection == Directions.Bottom) ? 'R' : 'L',
-            Step = int.Parse(CleanUp(currentStep)),
+            CURRENT_DIRECTION == DIRECTIONS.RIGHT ||
+            CURRENT_DIRECTION == DIRECTIONS.BOTTOM) ? 'R' : 'L',
+            Step = int.Parse(CleanUp(CURRENT_STEP)),
             AlphabetType = isLatSelected ? "Lat" : "Cyr",
         };
         var decodedMessage = Algorithm.Decode(cipherText);
