@@ -7,7 +7,6 @@ public abstract class AbstractMatrix : MonoBehaviour
     public abstract byte MatrixLen { get; set; }
     public abstract string MatrixType { get; set; }
     internal abstract ElementTransform ET { get; set; }
-
     internal abstract GameObject[] Matrix { get; set; }
     internal abstract Dictionary<string, GameObject> MatrixDictionary { get; set; }
     internal static readonly Color[] colors = { Color.red, Color.blue, Color.green };
@@ -22,7 +21,7 @@ public abstract class AbstractMatrix : MonoBehaviour
                 {
                     var instance = Instantiate(
                         Matrix[(x + y + z) % MatrixLen],
-                        ET.GetPosition(x, y, z),
+                        ET.GetPositionWithOffset(x, y, z),
                         ET.Rotation,
                         transform);
                     instance.transform.localScale = ET.Scale;

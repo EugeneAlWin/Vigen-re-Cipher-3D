@@ -11,5 +11,5 @@ class ElementTransform
         Rotation = Quaternion.Euler(rotation);
         Scale = scale;
     }
-    public Vector3 GetPosition(byte x, byte y, byte z) => new(x - Position.x, -y + Position.y, z - Position.z);
+    public Vector3 GetPositionWithOffset(byte x, byte y, byte z) => new(x - Position.x, -y + Position.y, z - Position.z);
 }

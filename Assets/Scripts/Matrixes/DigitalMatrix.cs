@@ -44,7 +44,7 @@ public class DigitalMatrix : AbstractMatrix
                 for (byte x = 0; x < x_limit; x++)
                     MatrixDictionary[GetElementName(x, y, z)].transform.Rotate(Vector3.down, .5f);
     }
-    private void OnStepChanged(Controller.Steps newStep)
+    private void OnStepChanged(Controller.Steps newStep, Controller.Actions action)
     {
         isInRotating = newStep == Controller.Steps.None;
         SetZLayerVisibillity(isInRotating ? byte.MinValue : MatrixLen);
