@@ -12,7 +12,6 @@ public partial class MainPanelInputsChecker : MonoBehaviour
     public Button encode, decode;
     private static readonly string[] unitysTrash = new string[] { "<color=#fff>", "</color>" };
 
-    private bool isLatSelected = false;
     internal string CleanUp(string textToCleanUp)
     {
         string newStr = textToCleanUp;
@@ -41,8 +40,18 @@ public partial class MainPanelInputsChecker : MonoBehaviour
 
     private void Update()
     {
-        latToggle.isOn = isLatSelected;
-        cyrToggle.isOn = !isLatSelected;
+        switch (CURRENT_ALPHABET)
+        {
+            case ALPHABETS.LATIN:
+                latToggle.isOn = true;
+                cyrToggle.isOn = false;
+                break;
+            case ALPHABETS.CYRILLIC:
+            default:
+                latToggle.isOn = false;
+                cyrToggle.isOn = true;
+                break;
+        }
     }
 
     private void EncodeClick()
@@ -54,10 +63,9 @@ public partial class MainPanelInputsChecker : MonoBehaviour
             Message = CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower(),
             Key = CleanUp(CURRENT_KEY).ToLower(),
             Depth = int.Parse(CleanUp(CURRENT_DEPTH)),
-            Direction = (CURRENT_DIRECTION == DIRECTIONS.RIGHT || CURRENT_DIRECTION == DIRECTIONS.BOTTOM)
-            ? 'R' : 'L',
+            Direction = CURRENT_DIRECTION,
             Step = int.Parse(CleanUp(CURRENT_STEP)),
-            AlphabetType = isLatSelected ? "Lat" : "Cyr",
+            AlphabetType = CURRENT_ALPHABET
         };
         string encodedMessage = Algorithm.Encode(cipherText);
         resultInput.text = $"<color=#FFF>{encodedMessage}</color>";
@@ -69,11 +77,9 @@ public partial class MainPanelInputsChecker : MonoBehaviour
             Message = CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower(),
             Key = CleanUp(CURRENT_KEY).ToLower(),
             Depth = int.Parse(CleanUp(CURRENT_DEPTH)),
-            Direction = (
-            CURRENT_DIRECTION == DIRECTIONS.RIGHT ||
-            CURRENT_DIRECTION == DIRECTIONS.BOTTOM) ? 'R' : 'L',
+            Direction = CURRENT_DIRECTION,
             Step = int.Parse(CleanUp(CURRENT_STEP)),
-            AlphabetType = isLatSelected ? "Lat" : "Cyr",
+            AlphabetType = CURRENT_ALPHABET
         };
         var decodedMessage = Algorithm.Decode(cipherText);
         resultInput.text = $"<color=#FFF>{decodedMessage}</color>";

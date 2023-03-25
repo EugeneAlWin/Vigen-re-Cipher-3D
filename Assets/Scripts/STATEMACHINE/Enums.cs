@@ -22,5 +22,10 @@
         ENCODING,
         DECODING
     }
+    public enum ALPHABETS
+    {
+        LATIN,
+        CYRILLIC
+    }
 }
 

@@ -10,7 +10,7 @@ public partial class MainPanelInputsChecker : MonoBehaviour
         if (
             InputRegex.IsMatch(
             trimmedMessage.ToLower().Replace(" ", ""),
-            isLatSelected ? InputRegex.latMessage : InputRegex.cyrMessage
+            CURRENT_ALPHABET == ALPHABETS.LATIN ? InputRegex.latMessage : InputRegex.cyrMessage
             ))
             CURRENT_MESSAGE = "<color=#fff>" + trimmedMessage + "</color>";
         messageInput.text = CURRENT_MESSAGE;
@@ -21,7 +21,7 @@ public partial class MainPanelInputsChecker : MonoBehaviour
         if (
             InputRegex.IsMatch(
             trimmedKey.ToLower(),
-            isLatSelected ? InputRegex.latKey : InputRegex.cyrKey
+            CURRENT_ALPHABET == ALPHABETS.LATIN ? InputRegex.latKey : InputRegex.cyrKey
             ))
             CURRENT_KEY = "<color=#fff>" + trimmedKey + "</color>";
         keyInput.text = CURRENT_KEY;
@@ -46,14 +46,14 @@ public partial class MainPanelInputsChecker : MonoBehaviour
     }
     private void LatValueChanged()
     {
-        isLatSelected = true;
+        CURRENT_ALPHABET = ALPHABETS.LATIN;
         messageInput.text = "";
         keyInput.text = "";
 
     }
     private void CyrValueChanged()
     {
-        isLatSelected = false;
+        CURRENT_ALPHABET = ALPHABETS.CYRILLIC;
         messageInput.text = "";
         keyInput.text = "";
     }

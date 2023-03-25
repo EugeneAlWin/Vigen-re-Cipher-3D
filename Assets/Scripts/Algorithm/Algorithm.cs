@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using static ENUMS;
 
 public class Algorithm
 {
@@ -13,7 +14,7 @@ public class Algorithm
             var (messageIndex, keyIndex, P) = (
                charToIndexDict[$"{message[i]}"],
                charToIndexDict[$"{key[i % key.Length]}"],
-               direction == 'R' ? step : -step);
+                (direction == DIRECTIONS.RIGHT || direction == DIRECTIONS.BOTTOM) ? step : -step);
             var indexOfEncodedLetter = (messageIndex + keyIndex + depth + P) % alphabetLen;
 
             if (indexOfEncodedLetter < 0)
@@ -34,7 +35,7 @@ public class Algorithm
             var (messageIndex, keyIndex, P) = (
                 charToIndexDict[$"{message[i]}"],
                 charToIndexDict[$"{key[i % key.Length]}"],
-                direction == 'R' ? -step : step);
+                (direction == DIRECTIONS.RIGHT || direction == DIRECTIONS.BOTTOM) ? -step : step);
             var indexOfDecodedLetter = (messageIndex + P - keyIndex - depth) % alphabetLen;
 
             if (indexOfDecodedLetter < 0)
@@ -43,14 +44,14 @@ public class Algorithm
         }
         return decodedMessage;
     }
-    private static (string message, string key, int depth, char direction, int step, string alphabetType) UnwrapCipherVector(CipherVector cipherText)
+    private static (string message, string key, int depth, DIRECTIONS direction, int step, ALPHABETS alphabetType) UnwrapCipherVector(CipherVector cipherText)
         => (cipherText.Message, cipherText.Key, cipherText.Depth, cipherText.Direction, cipherText.Step, cipherText.AlphabetType);
 
-    private static (Dictionary<string, int> charToIndexDict, string[] alphabet, int alphabetLen) GetAlphabetParams(string alphabetType)
+    private static (Dictionary<string, int> charToIndexDict, string[] alphabet, int alphabetLen) GetAlphabetParams(ALPHABETS alphabetType)
     {
         return alphabetType switch
         {
-            "Lat" => (Alphabets.LatinDictionary, Alphabets.LatinAlphabet, Alphabets.LatinAlphabet.Length),
+            ALPHABETS.LATIN => (Alphabets.LatinDictionary, Alphabets.LatinAlphabet, Alphabets.LatinAlphabet.Length),
             _ => (Alphabets.CyrillicDictionary, Alphabets.CyrillicAlphabet, Alphabets.CyrillicAlphabet.Length),
         };
     }
