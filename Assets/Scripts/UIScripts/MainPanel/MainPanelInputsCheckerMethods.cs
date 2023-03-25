@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public partial class CanvasInputsChecker : MonoBehaviour
+public partial class MainPanelInputsChecker : MonoBehaviour
 {
     private void MessageValueChanged()
     {

@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public partial class CanvasInputsChecker : MonoBehaviour
+public partial class MainPanelInputsChecker : MonoBehaviour
 {
     public TMP_InputField messageInput, keyInput, depthInput, stepInput, resultInput;
     public TMP_Dropdown directionDropdown;
@@ -23,7 +23,6 @@ public partial class CanvasInputsChecker : MonoBehaviour
         Bottom,
     }
 
-    private Algorithm algorithm;
     internal string CleanUp(string textToCleanUp)
     {
         string newStr = textToCleanUp;
@@ -48,7 +47,6 @@ public partial class CanvasInputsChecker : MonoBehaviour
         directionDropdown.value = (byte)currentDirection;
         stepInput.text = currentStep;
         //---
-        algorithm = GetComponent<Algorithm>();
     }
 
     private void Update()
@@ -71,7 +69,7 @@ public partial class CanvasInputsChecker : MonoBehaviour
             Step = int.Parse(CleanUp(currentStep)),
             AlphabetType = isLatSelected ? "Lat" : "Cyr",
         };
-        string encodedMessage = algorithm.Encode(cipherText);
+        string encodedMessage = Algorithm.Encode(cipherText);
         resultInput.text = $"<color=#FFF>{encodedMessage}</color>";
     }
     private void DecodeClick()
@@ -87,7 +85,7 @@ public partial class CanvasInputsChecker : MonoBehaviour
             Step = int.Parse(CleanUp(currentStep)),
             AlphabetType = isLatSelected ? "Lat" : "Cyr",
         };
-        var decodedMessage = algorithm.Decode(cipherText);
+        var decodedMessage = Algorithm.Decode(cipherText);
         resultInput.text = $"<color=#FFF>{decodedMessage}</color>";
     }
 }

@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using UnityEngine;
 
-public class Algorithm : MonoBehaviour
+public class Algorithm
 {
-    public string Encode(CipherVector cipherText)
+    public static string Encode(CipherVector cipherText)
     {
         var (message, key, depth, direction, step, alphabetType) = UnwrapCipherVector(cipherText);
         var (charToIndexDict, alphabet, alphabetLen) = GetAlphabetParams(alphabetType);
@@ -24,7 +23,7 @@ public class Algorithm : MonoBehaviour
         return encodedMessage;
     }
 
-    public string Decode(CipherVector cipherText)
+    public static string Decode(CipherVector cipherText)
     {
         var (message, key, depth, direction, step, alphabetType) = UnwrapCipherVector(cipherText);
         var (charToIndexDict, alphabet, alphabetLen) = GetAlphabetParams(alphabetType);
@@ -44,10 +43,10 @@ public class Algorithm : MonoBehaviour
         }
         return decodedMessage;
     }
-    private (string message, string key, int depth, char direction, int step, string alphabetType) UnwrapCipherVector(CipherVector cipherText)
+    private static (string message, string key, int depth, char direction, int step, string alphabetType) UnwrapCipherVector(CipherVector cipherText)
         => (cipherText.Message, cipherText.Key, cipherText.Depth, cipherText.Direction, cipherText.Step, cipherText.AlphabetType);
 
-    private (Dictionary<string, int> charToIndexDict, string[] alphabet, int alphabetLen) GetAlphabetParams(string alphabetType)
+    private static (Dictionary<string, int> charToIndexDict, string[] alphabet, int alphabetLen) GetAlphabetParams(string alphabetType)
     {
         return alphabetType switch
         {
