@@ -6,7 +6,7 @@ public class HowIsItWorks : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         ExaminePanel.SetPanelVisibility(true);
-        Controller.stepsDelegate?.Invoke(Controller.Steps.First);
+        Controller.HowItWorksDelegate?.Invoke(Controller.Steps.First, Controller.Actions.None);
         Camera.SetCameraPosition(Camera.CyrillicMatrixPosition, Camera.CyrillicMatrixRotation);
     }
 }

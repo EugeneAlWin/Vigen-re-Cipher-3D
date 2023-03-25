@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class SetStepAndDescription : MonoBehaviour
 {
-    [SerializeField] TMP_Text stepField;
-    [SerializeField] TMP_Text descriptionField;
+    [SerializeField] private TMP_Text stepField;
+    [SerializeField] private TMP_Text descriptionField;
 
     private void Update()
     {
@@ -12,8 +12,8 @@ public class SetStepAndDescription : MonoBehaviour
         {
             case Controller.Steps.First:
                 {
-                    stepField.text = "Залупа ебаная этот юнити";
-                    descriptionField.text = "Залупа ебаная этот юнити";
+                    stepField.text = "Шаг 1:";
+                    descriptionField.text = "Необходимо ввести сообщение для кодирования, ключ, глубину кодирования, направление и шаг";
                     break;
                 }
         }

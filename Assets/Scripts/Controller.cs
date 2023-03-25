@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public delegate void StepsDelegate(Controller.Steps newStep);
+public delegate void HowItWorksDelegate(Controller.Steps newStep, Controller.Actions action);
 public class Controller : MonoBehaviour
 {
     public enum Steps
@@ -14,21 +14,23 @@ public class Controller : MonoBehaviour
     }
     public enum Actions
     {
+        None,
         Encoding,
         Decoding
     }
     public static Steps CurrentStep { get; set; } = Steps.None;
 
-    public static Actions CurrentAction = Actions.Encoding;
-    public static StepsDelegate stepsDelegate;
+    public static Actions CurrentAction = Actions.None;
+    public static HowItWorksDelegate HowItWorksDelegate;
 
     private void Awake()
     {
-        stepsDelegate += SetCurrentStep;
+        HowItWorksDelegate += SetCurrentStepAndAction;
     }
 
-    void SetCurrentStep(Steps newStep)
+    void SetCurrentStepAndAction(Steps newStep, Actions action)
     {
         CurrentStep = newStep;
+        CurrentAction = action;
     }
 }

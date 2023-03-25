@@ -12,7 +12,7 @@ public class CyrillicMatrix : AbstractMatrix
 
     void Awake()
     {
-        Controller.stepsDelegate += OnStepChanged;
+        Controller.HowItWorksDelegate += OnStepChanged;
         MatrixDictionary = new Dictionary<string, GameObject>();
         Matrix = new GameObject[MatrixLen];
         for (byte i = 0; i < MatrixLen; i++)
