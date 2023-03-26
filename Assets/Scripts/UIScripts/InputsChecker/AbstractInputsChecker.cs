@@ -2,17 +2,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static STATES;
-using static ENUMS;
 
-public partial class MainPanelInputsChecker : MonoBehaviour
+public abstract partial class AbstractInputsChecker : MonoBehaviour
 {
     public TMP_InputField messageInput, keyInput, depthInput, stepInput, resultInput;
     public TMP_Dropdown directionDropdown;
-    public Toggle latToggle, cyrToggle;
     public Button encode, decode;
     private static readonly string[] unitysTrash = new string[] { "<color=#fff>", "</color>" };
-    private readonly float waitTime = .5f;
-    private float timer = 0.0f;
+
     internal string CleanUp(string textToCleanUp)
     {
         string newStr = textToCleanUp;
@@ -35,26 +32,6 @@ public partial class MainPanelInputsChecker : MonoBehaviour
         directionDropdown.value = (byte)CURRENT_DIRECTION;
         stepInput.text = CURRENT_STEP;
         //---
-    }
-
-    private void Update()
-    {
-        timer += Time.deltaTime;
-        if (timer <= waitTime) return;
-        switch (CURRENT_ALPHABET)
-        {
-            case ALPHABETS.LATIN:
-                latToggle.isOn = true;
-                cyrToggle.isOn = false;
-                break;
-            case ALPHABETS.CYRILLIC:
-                latToggle.isOn = false;
-                cyrToggle.isOn = true;
-                break;
-            default:
-                break;
-        }
-        timer = 0;
     }
 
     private void EncodeClick()

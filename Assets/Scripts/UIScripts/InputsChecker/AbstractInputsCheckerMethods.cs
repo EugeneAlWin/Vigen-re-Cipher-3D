@@ -2,7 +2,7 @@
 using static ENUMS;
 using static STATES;
 
-public partial class MainPanelInputsChecker : MonoBehaviour
+public abstract partial class AbstractInputsChecker : MonoBehaviour
 {
     private void MessageValueChanged()
     {
