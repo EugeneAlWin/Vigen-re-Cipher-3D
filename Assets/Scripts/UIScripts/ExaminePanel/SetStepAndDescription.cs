@@ -18,6 +18,12 @@ public class SetStepAndDescription : MonoBehaviour
                     descriptionField.text = "Необходимо ввести сообщение для кодирования, ключ, глубину кодирования, направление и шаг";
                     break;
                 }
+            case STEPS.SECOND:
+                {
+                    stepField.text = "Шаг 2:";
+                    descriptionField.text = "Sus";
+                    break;
+                }
         }
     }
 }
