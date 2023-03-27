@@ -14,18 +14,19 @@
         SECOND,
         THIRD,
         FOURTH,
-        FIFTH
+        FIFTH,
+        SIXTH,
     }
     public enum ACTIONS
     {
         NONE,
         ENCODING,
-        DECODING
+        DECODING,
     }
     public enum ALPHABETS
     {
         LATIN,
-        CYRILLIC
+        CYRILLIC,
     }
 }
 
