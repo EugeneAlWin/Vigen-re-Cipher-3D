@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 262.3369, g: 325.0498, b: 430.21924, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4885,7 +4885,6 @@ GameObject:
   - component: {fileID: 718201479}
   - component: {fileID: 718201478}
   - component: {fileID: 718201477}
-  - component: {fileID: 718201480}
   m_Layer: 5
   m_Name: EncodeButton
   m_TagString: Untagged
@@ -4996,18 +4995,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718201475}
   m_CullTransparentMesh: 1
---- !u!114 &718201480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718201475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7530b57a45c394643bd6de712184a8ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &753690459
 GameObject:
   m_ObjectHideFlags: 0
@@ -8111,7 +8098,6 @@ GameObject:
   - component: {fileID: 1221268189}
   - component: {fileID: 1221268188}
   - component: {fileID: 1221268187}
-  - component: {fileID: 1221268190}
   m_Layer: 5
   m_Name: DecodeButton
   m_TagString: Untagged
@@ -8222,18 +8208,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1221268185}
   m_CullTransparentMesh: 1
---- !u!114 &1221268190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1221268185}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79a41fac897e14b46a7f050dd265e982, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1247598192
 GameObject:
   m_ObjectHideFlags: 0
@@ -9473,8 +9447,9 @@ MonoBehaviour:
   stepInput: {fileID: 761971176}
   resultInput: {fileID: 106035366}
   directionDropdown: {fileID: 2091955115}
-  encode: {fileID: 718201477}
-  decode: {fileID: 1221268187}
+  <Encode>k__BackingField: {fileID: 718201477}
+  <Decode>k__BackingField: {fileID: 1221268187}
+  result: {fileID: 1034799434}
 --- !u!1 &1495026397
 GameObject:
   m_ObjectHideFlags: 0
@@ -14696,8 +14671,8 @@ MonoBehaviour:
   stepInput: {fileID: 642763335}
   resultInput: {fileID: 554212267}
   directionDropdown: {fileID: 1002477958}
-  encode: {fileID: 2093091734}
-  decode: {fileID: 943545543}
+  <Encode>k__BackingField: {fileID: 2093091734}
+  <Decode>k__BackingField: {fileID: 943545543}
   latToggle: {fileID: 1862579302}
   cyrToggle: {fileID: 1289819545}
 --- !u!1 &2109061453
