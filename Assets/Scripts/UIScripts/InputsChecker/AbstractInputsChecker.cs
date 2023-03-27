@@ -7,7 +7,8 @@ public abstract partial class AbstractInputsChecker : MonoBehaviour
 {
     public TMP_InputField messageInput, keyInput, depthInput, stepInput, resultInput;
     public TMP_Dropdown directionDropdown;
-    public Button encode, decode;
+    [field: SerializeField] public Button Encode { get; set; }
+    [field: SerializeField] public Button Decode { get; set; }
     private static readonly string[] unitysTrash = new string[] { "<color=#fff>", "</color>" };
 
     internal string CleanUp(string textToCleanUp)
@@ -25,8 +26,8 @@ public abstract partial class AbstractInputsChecker : MonoBehaviour
         depthInput.onValueChanged.AddListener(delegate { DepthValueChanged(); });
         directionDropdown.onValueChanged.AddListener(delegate { DirectionValueChanged(); });
         stepInput.onValueChanged.AddListener(delegate { StepValueChanged(); });
-        encode.onClick.AddListener(delegate { EncodeClick(); });
-        decode.onClick.AddListener(delegate { DecodeClick(); });
+        Encode.onClick.AddListener(delegate { EncodeClick(); });
+        Decode.onClick.AddListener(delegate { DecodeClick(); });
         //---
         depthInput.text = CURRENT_DEPTH;
         directionDropdown.value = (byte)CURRENT_DIRECTION;
@@ -34,7 +35,7 @@ public abstract partial class AbstractInputsChecker : MonoBehaviour
         //---
     }
 
-    private void EncodeClick()
+    internal virtual void EncodeClick()
     {
         if (CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower() == "") return;
         if (CleanUp(CURRENT_KEY).ToLower() == "") return;
@@ -50,7 +51,7 @@ public abstract partial class AbstractInputsChecker : MonoBehaviour
         string encodedMessage = Algorithm.Encode(cipherText);
         resultInput.text = $"<color=#FFF>{encodedMessage}</color>";
     }
-    private void DecodeClick()
+    internal virtual void DecodeClick()
     {
         var cipherText = new CipherVector()
         {

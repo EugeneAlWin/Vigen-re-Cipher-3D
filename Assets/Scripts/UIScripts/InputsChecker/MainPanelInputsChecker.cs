@@ -1,7 +1,7 @@
-﻿using static STATES;
-using static ENUMS;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using static ENUMS;
+using static STATES;
 
 internal class MainPanelInputsChecker : AbstractInputsChecker
 {
