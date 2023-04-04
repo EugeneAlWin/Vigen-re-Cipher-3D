@@ -8,4 +8,15 @@ public class CipherVector
     public DIRECTIONS Direction { get; set; }
     public int Step { get; set; }
     public ALPHABETS AlphabetType { get; set; }
+
+    public CipherVector() { }
+    public CipherVector(string message, string key, int depth, DIRECTIONS direction, int step, ALPHABETS alphabetType)
+    {
+        Message = message;
+        Key = key;
+        Depth = depth;
+        Direction = direction;
+        Step = step;
+        AlphabetType = alphabetType;
+    }
 }

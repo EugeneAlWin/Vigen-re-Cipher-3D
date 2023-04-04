@@ -8,7 +8,7 @@ public class HowIsItWorks : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         ExaminePanel.SetPanelVisibility(true);
-        Controller.HowItWorksDelegate?.Invoke(STEPS.FIRST, ACTIONS.NONE);
+        Controller.studyModeChanged?.Invoke(STEPS.FIRST, ACTIONS.NONE);
         switch (CURRENT_ALPHABET)
         {
             case ALPHABETS.LATIN:

@@ -47,4 +47,12 @@ public abstract class AbstractMatrix : MonoBehaviour
                     if (MatrixDictionary.TryGetValue(GetElementName(x, y, z), out GameObject gm))
                         gm.SetActive(z >= start && z <= end);
     }
+    internal void SetZLayerVisibillity(CipherVector chiperVector)
+    {
+        for (byte z = 0; z < MatrixLen; z++)
+            for (byte y = 0; y < MatrixLen; y++)
+                for (byte x = 0; x < MatrixLen; x++)
+                    if (MatrixDictionary.TryGetValue(GetElementName(x, y, z), out GameObject gm))
+                        gm.SetActive(z == chiperVector.Depth % MatrixLen);
+    }
 }

@@ -19,7 +19,7 @@ public abstract partial class AbstractInputsChecker : MonoBehaviour
         return newStr;
     }
 
-    void Awake()
+    internal virtual void Awake()
     {
         messageInput.onValueChanged.AddListener(delegate { MessageValueChanged(); });
         keyInput.onValueChanged.AddListener(delegate { KeyValueChanged(); });

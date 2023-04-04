@@ -16,7 +16,7 @@ public class DigitalMatrix : AbstractMatrix
 
     void Awake()
     {
-        Controller.HowItWorksDelegate += OnStepChanged;
+        Controller.studyModeChanged += OnStepChanged;
         MatrixDictionary = new Dictionary<string, GameObject>();
         Matrix = new GameObject[MatrixLen];
         for (byte i = 0; i < MatrixLen; i++)

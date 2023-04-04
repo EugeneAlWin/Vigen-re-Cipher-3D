@@ -2,14 +2,21 @@ using UnityEngine;
 using static ENUMS;
 using static STATES;
 
-public delegate void HowItWorksDelegate(STEPS newStep, ACTIONS action);
+public delegate void StudyModeChangedDelegate(STEPS newStep, ACTIONS action);
+public delegate void CipherVectorChangedDelegate(CipherVector cipherVector);
+public delegate void NavButtonsPressedDelegate(NAV newNavigation);
+public delegate void CodedCharChangedDelegate();
+
 public class Controller : MonoBehaviour
 {
-    public static HowItWorksDelegate HowItWorksDelegate;
+    public static StudyModeChangedDelegate studyModeChanged;
+    public static CipherVectorChangedDelegate cipherVectorChanged;
+    public static NavButtonsPressedDelegate OnNavButtonsPressed;
+    public static CodedCharChangedDelegate OnCcodedCharChanged;
 
-    private void Awake()
+    void Awake()
     {
-        HowItWorksDelegate += SetCurrentStepAndAction;
+        studyModeChanged += SetCurrentStepAndAction;
     }
 
     void SetCurrentStepAndAction(STEPS newStep, ACTIONS action)

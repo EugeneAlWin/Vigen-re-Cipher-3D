@@ -6,8 +6,8 @@ public class ExaminePanel : MonoBehaviour
     static GameObject panel;
     private void Awake()
     {
-        Controller.HowItWorksDelegate += SetOneTimeElementsVisibillity;
-        Controller.HowItWorksDelegate += SetAfterStep1PanelVisibillity;
+        Controller.studyModeChanged += SetOneTimeElementsVisibillity;
+        Controller.studyModeChanged += SetAfterStep1PanelVisibillity;
         panel = gameObject;
         panel.SetActive(false);
         oneTimeElements.SetActive(true);

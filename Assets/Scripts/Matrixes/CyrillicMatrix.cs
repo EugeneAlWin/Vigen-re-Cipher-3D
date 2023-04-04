@@ -13,7 +13,8 @@ public class CyrillicMatrix : AbstractMatrix
 
     void Awake()
     {
-        Controller.HowItWorksDelegate += OnStepChanged;
+        Controller.studyModeChanged += OnStudyModeChanged;
+        Controller.cipherVectorChanged += SetZLayerVisibillity;
         MatrixDictionary = new Dictionary<string, GameObject>();
         Matrix = new GameObject[MatrixLen];
         for (byte i = 0; i < MatrixLen; i++)
@@ -23,7 +24,7 @@ public class CyrillicMatrix : AbstractMatrix
         ET = new(new Vector3(150.5f, 4.5f, 4.5f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
         GenMatrix(MatrixLen, MatrixLen, MatrixLen);
     }
-    private void OnStepChanged(STEPS newStep, ACTIONS action)
+    private void OnStudyModeChanged(STEPS newStep, ACTIONS action)
     {
         switch (newStep)
         {
@@ -31,7 +32,7 @@ public class CyrillicMatrix : AbstractMatrix
                 SetZLayerVisibillity(MatrixLen);
                 break;
             case STEPS.FIRST:
-                SetZLayerVisibillity(0, 4);
+                SetZLayerVisibillity(0, 3);
                 break;
             default:
                 break;

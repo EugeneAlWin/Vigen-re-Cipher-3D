@@ -28,5 +28,10 @@
         LATIN,
         CYRILLIC,
     }
+    public enum NAV
+    {
+        NEXT,
+        PREVIOUS
+    }
 }
 
