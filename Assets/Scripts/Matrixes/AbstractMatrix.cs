@@ -55,11 +55,10 @@ public abstract class AbstractMatrix : MonoBehaviour
     {
         var alphabetLen = CURRENT_ALPHABET == ALPHABETS.CYRILLIC ? Alphabets.CyrillicAlphabet.Length : Alphabets.LatinAlphabet.Length;
         byte ypos = (byte)Alphabets.CyrillicDictionary[yChar];
-        byte xpos = 0, temp = (byte)(ypos + 1);
+        byte xpos = 0;
         while (true)
         {
-            if (Alphabets.CyrillicAlphabet[temp] == xChar) break;
-            temp = (byte)((temp + 1) % alphabetLen);
+            if (Alphabets.CyrillicAlphabet[(ypos + xpos + EXAMINE_DEPTH) % alphabetLen] == xChar) break;
             xpos++;
         }
 
@@ -94,6 +93,6 @@ public abstract class AbstractMatrix : MonoBehaviour
             for (byte y = 0; y < MatrixLen; y++)
                 for (byte x = 0; x < MatrixLen; x++)
                     if (MatrixDictionary.TryGetValue(GetElementName(x, y, z), out GameObject gm))
-                        gm.SetActive(z == chiperVector.Depth % MatrixLen);
+                        gm.SetActive(z == (chiperVector.Depth % (int)MatrixLen));
     }
 }
