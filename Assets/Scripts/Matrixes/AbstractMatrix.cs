@@ -36,8 +36,9 @@ public abstract class AbstractMatrix : MonoBehaviour
     }
     internal virtual void LightUpChar(CipherVector cipherVector)
     {
-        byte xpos = (byte)Alphabets.CyrillicDictionary[cipherVector.Message];
-        byte ypos = (byte)Alphabets.CyrillicDictionary[cipherVector.Key];
+        var dict = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinDictionary : Alphabets.CyrillicDictionary;
+        byte xpos = (byte)dict[cipherVector.Message];
+        byte ypos = (byte)dict[cipherVector.Key];
         if (MatrixDictionary.TryGetValue(GetElementName(xpos, ypos, CURRENT_EXAMINE_STEP == STEPS.SECOND ?
             byte.MinValue :
             (byte)EXAMINE_DEPTH),
@@ -53,8 +54,10 @@ public abstract class AbstractMatrix : MonoBehaviour
     }
     internal virtual void LightUpChar(string xChar, string yChar)
     {
-        var alphabetLen = CURRENT_ALPHABET == ALPHABETS.CYRILLIC ? Alphabets.CyrillicAlphabet.Length : Alphabets.LatinAlphabet.Length;
-        int ypos = Alphabets.CyrillicDictionary[yChar];
+        var alphabet = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinAlphabet : Alphabets.CyrillicAlphabet;
+        var dict = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinDictionary : Alphabets.CyrillicDictionary;
+
+        int ypos = dict[yChar];
         int xpos = 0;
         switch (EXAMINE_DIRECTION)
         {
@@ -69,7 +72,7 @@ public abstract class AbstractMatrix : MonoBehaviour
         }
         while (true)
         {
-            if (Alphabets.CyrillicAlphabet[(ypos + xpos + EXAMINE_DEPTH) % alphabetLen] == xChar) break;
+            if (alphabet[(ypos + xpos + EXAMINE_DEPTH) % alphabet.Length] == xChar) break;
             xpos++;
         }
         var name = GetElementName((byte)xpos, (byte)ypos, CURRENT_EXAMINE_STEP == STEPS.SECOND ? byte.MinValue : (byte)EXAMINE_DEPTH);
