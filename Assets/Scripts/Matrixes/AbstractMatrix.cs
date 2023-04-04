@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static ENUMS;
+using static STATES;
 
 public abstract class AbstractMatrix : MonoBehaviour
 {
@@ -11,7 +13,8 @@ public abstract class AbstractMatrix : MonoBehaviour
     internal abstract Dictionary<string, GameObject> MatrixDictionary { get; set; }
     internal static readonly Color[] colors = { Color.red, Color.blue, Color.green };
     internal static readonly byte colorsLen = (byte)colors.Length;
-
+    internal GameObject swapObject = null;
+    private Color swapColor;
     internal string GetElementName(byte x, byte y, byte z) => $"{MatrixType}-z{z}x{y}y{x}";
     internal void GenMatrix(byte x_limit, byte y_limit, byte z_limit)
     {
@@ -30,6 +33,44 @@ public abstract class AbstractMatrix : MonoBehaviour
                     instance.SetActive(false);
                     MatrixDictionary.Add(instance.name, instance);
                 }
+    }
+    internal virtual void LightUpChar(CipherVector cipherVector)
+    {
+        byte xpos = (byte)Alphabets.CyrillicDictionary[cipherVector.Message];
+        byte ypos = (byte)Alphabets.CyrillicDictionary[cipherVector.Key];
+        if (MatrixDictionary.TryGetValue(GetElementName(xpos, ypos, CURRENT_EXAMINE_STEP == STEPS.SECOND ?
+            byte.MinValue :
+            (byte)EXAMINE_DEPTH),
+            out GameObject element))
+        {
+            if (swapObject != null) swapObject.GetComponent<Renderer>().material.color = swapColor;
+
+            swapObject = element;
+            swapColor = element.GetComponent<Renderer>().material.color;
+            element.GetComponent<Renderer>().material.color = Color.white;
+            SetZLayerVisibillity(cipherVector);
+        }
+    }
+    internal virtual void LightUpChar(string xChar, string yChar)
+    {
+        var alphabetLen = CURRENT_ALPHABET == ALPHABETS.CYRILLIC ? Alphabets.CyrillicAlphabet.Length : Alphabets.LatinAlphabet.Length;
+        byte ypos = (byte)Alphabets.CyrillicDictionary[yChar];
+        byte xpos = 0, temp = (byte)(ypos + 1);
+        while (true)
+        {
+            if (Alphabets.CyrillicAlphabet[temp] == xChar) break;
+            temp = (byte)((temp + 1) % alphabetLen);
+            xpos++;
+        }
+
+        var name = GetElementName(xpos, ypos, CURRENT_EXAMINE_STEP == STEPS.SECOND ? byte.MinValue : (byte)EXAMINE_DEPTH);
+        if (MatrixDictionary.TryGetValue(name, out GameObject element))
+        {
+            if (swapObject != null) swapObject.GetComponent<Renderer>().material.color = swapColor;
+            swapObject = element;
+            swapColor = element.GetComponent<Renderer>().material.color;
+            element.GetComponent<Renderer>().material.color = Color.white;
+        }
     }
     internal void SetZLayerVisibillity(byte howMuchToHide = 0)
     {

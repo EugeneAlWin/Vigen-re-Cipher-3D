@@ -10,8 +10,8 @@ public class SetStepAndDescription : MonoBehaviour
     private string stepFieldText, descriptionFieldText;
     private void Awake()
     {
-        Controller.studyModeChanged += OnStepChanged;
-        Controller.OnCcodedCharChanged += OnCodedLetterChanged;
+        Controller.onStudyModeChanged += OnStepChanged;
+        Controller.onCodedCharChanged += OnCodedLetterChanged;
     }
     private void Update()
     {
@@ -27,7 +27,7 @@ public class SetStepAndDescription : MonoBehaviour
             case STEPS.FIRST:
                 {
                     stepFieldText = "Шаг 1:";
-                    descriptionFieldText = "Необходимо ввести сообщение для кодирования, ключ, глубину кодирования, направление и шаг";
+                    descriptionFieldText = "Необходимо ввести сообщение для кодирования, ключ, глубину кодирования, направление и шаг ";
                     break;
                 }
             case STEPS.SECOND:

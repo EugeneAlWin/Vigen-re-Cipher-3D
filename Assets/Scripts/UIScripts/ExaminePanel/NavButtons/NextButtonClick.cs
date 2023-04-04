@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static STATES;
 using static ENUMS;
+using static STATES;
 
 public class NextButtonClick : MonoBehaviour, IPointerClickHandler
 {
@@ -15,10 +15,10 @@ public class NextButtonClick : MonoBehaviour, IPointerClickHandler
             if (EXAMINE_CURRENT_CHAR_POSITION == EXAMINE_MESSAGE.Length)
             {
                 EXAMINE_CURRENT_CHAR_POSITION--;
-                Controller.studyModeChanged?.Invoke(STEPS.SIXTH, CURRENT_EXAMINE_ACTION);
+                Controller.onStudyModeChanged?.Invoke(STEPS.SIXTH, CURRENT_EXAMINE_ACTION);
                 return;
             }
         }
-        Controller.studyModeChanged?.Invoke(CURRENT_EXAMINE_STEP, CURRENT_EXAMINE_ACTION);
+        Controller.onStudyModeChanged?.Invoke(CURRENT_EXAMINE_STEP, CURRENT_EXAMINE_ACTION);
     }
 }
