@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static ENUMS;
 using static STATES;
 
 public abstract partial class AbstractInputsChecker : MonoBehaviour
@@ -32,9 +33,10 @@ public abstract partial class AbstractInputsChecker : MonoBehaviour
         depthInput.text = CURRENT_DEPTH;
         directionDropdown.value = (byte)CURRENT_DIRECTION;
         stepInput.text = CURRENT_STEP;
+        Controller.onStudyModeChanged += SetResult;
         //---
     }
-
+    internal abstract void SetResult(STEPS newStep, ACTIONS newAction);
     internal virtual void EncodeClick()
     {
         if (CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower() == "") return;

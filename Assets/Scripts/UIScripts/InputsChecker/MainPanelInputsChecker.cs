@@ -28,5 +28,7 @@ internal class MainPanelInputsChecker : AbstractInputsChecker
         }
         timer = 0;
     }
+
+    internal override void SetResult(STEPS newStep, ACTIONS newAction) { }
 }
 

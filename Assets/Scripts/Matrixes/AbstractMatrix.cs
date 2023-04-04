@@ -54,15 +54,25 @@ public abstract class AbstractMatrix : MonoBehaviour
     internal virtual void LightUpChar(string xChar, string yChar)
     {
         var alphabetLen = CURRENT_ALPHABET == ALPHABETS.CYRILLIC ? Alphabets.CyrillicAlphabet.Length : Alphabets.LatinAlphabet.Length;
-        byte ypos = (byte)Alphabets.CyrillicDictionary[yChar];
-        byte xpos = 0;
+        int ypos = Alphabets.CyrillicDictionary[yChar];
+        int xpos = 0;
+        switch (EXAMINE_DIRECTION)
+        {
+            case DIRECTIONS.TOP:
+                ypos -= EXAMINE_STEP;
+                if (ypos < 0)
+                    ypos = (ypos + MatrixLen) % MatrixLen;
+                break;
+            case DIRECTIONS.BOTTOM:
+                ypos += EXAMINE_STEP;
+                break;
+        }
         while (true)
         {
             if (Alphabets.CyrillicAlphabet[(ypos + xpos + EXAMINE_DEPTH) % alphabetLen] == xChar) break;
             xpos++;
         }
-
-        var name = GetElementName(xpos, ypos, CURRENT_EXAMINE_STEP == STEPS.SECOND ? byte.MinValue : (byte)EXAMINE_DEPTH);
+        var name = GetElementName((byte)xpos, (byte)ypos, CURRENT_EXAMINE_STEP == STEPS.SECOND ? byte.MinValue : (byte)EXAMINE_DEPTH);
         if (MatrixDictionary.TryGetValue(name, out GameObject element))
         {
             if (swapObject != null) swapObject.GetComponent<Renderer>().material.color = swapColor;
