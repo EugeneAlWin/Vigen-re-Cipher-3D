@@ -46,9 +46,9 @@ public abstract class AbstractMatrix : MonoBehaviour
         {
             if (swapObject != null) swapObject.GetComponent<Renderer>().material.color = swapColor;
 
-            swapObject = element;
-            swapColor = element.GetComponent<Renderer>().material.color;
-            element.GetComponent<Renderer>().material.color = Color.white;
+            swapObject = element.transform.GetChild(0).gameObject;
+            swapColor = swapObject.GetComponent<Renderer>().material.color;
+            element.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.color = Color.white;
             SetZLayerVisibillity(cipherVector);
         }
     }
@@ -56,7 +56,6 @@ public abstract class AbstractMatrix : MonoBehaviour
     {
         var alphabet = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinAlphabet : Alphabets.CyrillicAlphabet;
         var dict = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinDictionary : Alphabets.CyrillicDictionary;
-
         int ypos = dict[yChar];
         int xpos = 0;
         switch (EXAMINE_DIRECTION)
@@ -79,9 +78,9 @@ public abstract class AbstractMatrix : MonoBehaviour
         if (MatrixDictionary.TryGetValue(name, out GameObject element))
         {
             if (swapObject != null) swapObject.GetComponent<Renderer>().material.color = swapColor;
-            swapObject = element;
-            swapColor = element.GetComponent<Renderer>().material.color;
-            element.GetComponent<Renderer>().material.color = Color.white;
+            swapObject = element.transform.GetChild(0).gameObject;
+            swapColor = swapObject.GetComponent<Renderer>().material.color;
+            element.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.color = Color.white;
         }
     }
     internal void SetZLayerVisibillity(byte howMuchToHide = 0)

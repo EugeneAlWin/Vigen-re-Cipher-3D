@@ -23,7 +23,7 @@ public class CyrillicMatrix : AbstractMatrix
             Matrix[i] = (GameObject)Resources.Load($"Prefabs/Cyrillic/{Alphabets.CyrillicAlphabet[i].ToUpper()}");
 
         initialPosition = transform.position;
-        ET = new(new Vector3(150.5f, 4.5f, 4.5f), new Vector3(0, 180, 0), new Vector3(1, 1, 1));
+        ET = new(new Vector3(150.5f, 4.5f, 4.5f), new Vector3(0, 180, 0), new Vector3(100, 100, 100));
         GenMatrix(MatrixLen, MatrixLen, MatrixLen);
     }
 
@@ -35,7 +35,7 @@ public class CyrillicMatrix : AbstractMatrix
                 SetZLayerVisibillity(MatrixLen);
                 break;
             case STEPS.FIRST:
-                SetZLayerVisibillity(0, 3);
+                SetZLayerVisibillity(0, 2);
                 break;
             default:
                 break;

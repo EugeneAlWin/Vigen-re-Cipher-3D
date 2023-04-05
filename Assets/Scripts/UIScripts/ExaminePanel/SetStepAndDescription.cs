@@ -39,7 +39,7 @@ public class SetStepAndDescription : MonoBehaviour
             case STEPS.THIRD:
                 {
                     stepFieldText = "Шаг 3:";
-                    descriptionFieldText = $"Пройти в глубину матрицы на `{EXAMINE_DEPTH}` шагов, равных глубине, по модулю длины алфавита";
+                    descriptionFieldText = $"Пройти в глубину матрицы на `{EXAMINE_DEPTH}` шагов, равных глубине, по модулю длины алфавита. Результат: `{EXAMINE_CODED_LETTER}`";
                     break;
                 }
             case STEPS.FOURTH:
