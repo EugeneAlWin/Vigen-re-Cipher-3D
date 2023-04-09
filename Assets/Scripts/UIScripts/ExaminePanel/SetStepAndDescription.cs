@@ -22,7 +22,7 @@ public class SetStepAndDescription : MonoBehaviour
     void OnCodedLetterChanged() => SetStepAndDescr();
     internal void SetStepAndDescr()
     {
-        switch (CURRENT_EXAMINE_STEP)
+        switch (STUDY_CURRENT_STEP)
         {
             case STEPS.FIRST:
                 {
@@ -33,25 +33,25 @@ public class SetStepAndDescription : MonoBehaviour
             case STEPS.SECOND:
                 {
                     stepFieldText = "Шаг 2:";
-                    descriptionFieldText = $"Найти символ на пересечении символов сообщения и ключа. В нашем случае это `{EXAMINE_CODED_LETTER}`";
+                    descriptionFieldText = $"Найти символ на пересечении символов сообщения и ключа. В нашем случае это `{STUDY_CODED_CHAR}`";
                     break;
                 }
             case STEPS.THIRD:
                 {
                     stepFieldText = "Шаг 3:";
-                    descriptionFieldText = $"Пройти в глубину матрицы на `{EXAMINE_DEPTH}` шагов, равных глубине, по модулю длины алфавита. Результат: `{EXAMINE_CODED_LETTER}`";
+                    descriptionFieldText = $"Пройти в глубину матрицы на `{STUDY_DEPTH}` шагов, равных глубине, по модулю длины алфавита. Результат: `{STUDY_CODED_CHAR}`";
                     break;
                 }
             case STEPS.FOURTH:
                 {
                     stepFieldText = "Шаг 4: ";
-                    descriptionFieldText = $"Сделать `{EXAMINE_STEP}` шагов в сторону, по модулю длины алфавита, соответствующую направлению. R - вправо, L -влево, T - вверх, B - вниз";
+                    descriptionFieldText = $"Сделать `{STUDY_STEP}` шагов в сторону, по модулю длины алфавита, соответствующую направлению. R - вправо, L -влево, T - вверх, B - вниз";
                     break;
                 }
             case STEPS.FIFTH:
                 {
                     stepFieldText = "Шаг 5:";
-                    descriptionFieldText = $"Результат: `{EXAMINE_CODED_LETTER}`. Повторить шаги 2-5 до конца сообщения";
+                    descriptionFieldText = $"Результат: `{STUDY_CODED_CHAR}`. Повторить шаги 2-5 до конца сообщения";
                     break;
                 }
             case STEPS.SIXTH:

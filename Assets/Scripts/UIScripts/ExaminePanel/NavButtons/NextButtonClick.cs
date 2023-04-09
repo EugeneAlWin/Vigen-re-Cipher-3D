@@ -7,18 +7,18 @@ public class NextButtonClick : MonoBehaviour, IPointerClickHandler
 {
     public void OnPointerClick(PointerEventData eventData)
     {
-        CURRENT_EXAMINE_STEP += 1;
-        if (CURRENT_EXAMINE_STEP == STEPS.SIXTH)
+        STUDY_CURRENT_STEP += 1;
+        if (STUDY_CURRENT_STEP == STEPS.SIXTH)
         {
-            CURRENT_EXAMINE_STEP = STEPS.SECOND;
-            EXAMINE_CURRENT_CHAR_POSITION++;
-            if (EXAMINE_CURRENT_CHAR_POSITION == EXAMINE_MESSAGE.Length)
+            STUDY_CURRENT_STEP = STEPS.SECOND;
+            STUDY_CURRENT_CHAR_POSITION++;
+            if (STUDY_CURRENT_CHAR_POSITION == STUDY_MESSAGE.Length)
             {
-                EXAMINE_CURRENT_CHAR_POSITION--;
-                Controller.onStudyModeChanged?.Invoke(STEPS.SIXTH, CURRENT_EXAMINE_ACTION);
+                STUDY_CURRENT_CHAR_POSITION--;
+                Controller.onStudyModeChanged?.Invoke(STEPS.SIXTH, STUDY_CURRENT_ACTION);
                 return;
             }
         }
-        Controller.onStudyModeChanged?.Invoke(CURRENT_EXAMINE_STEP, CURRENT_EXAMINE_ACTION);
+        Controller.onStudyModeChanged?.Invoke(STUDY_CURRENT_STEP, STUDY_CURRENT_ACTION);
     }
 }

@@ -12,98 +12,98 @@ public class ExaminePanelInputsChecker : AbstractInputsChecker
 
     private void Update()
     {
-        nextButton.gameObject.SetActive(CURRENT_EXAMINE_STEP != STEPS.SIXTH);
+        nextButton.gameObject.SetActive(STUDY_CURRENT_STEP != STEPS.SIXTH);
     }
 
     internal override void EncodeClick()
     {
-        EXAMINE_CURRENT_CHAR_POSITION = 0;
-        CURRENT_EXAMINE_ACTION = ACTIONS.ENCODING;
-        EXAMINE_MESSAGE = CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower();
-        EXAMINE_KEY = CleanUp(CURRENT_KEY).ToLower();
-        EXAMINE_DEPTH = int.Parse(CleanUp(CURRENT_DEPTH));
-        EXAMINE_STEP = int.Parse(CleanUp(CURRENT_STEP));
-        EXAMINE_DIRECTION = CURRENT_DIRECTION;
+        STUDY_CURRENT_CHAR_POSITION = 0;
+        STUDY_CURRENT_ACTION = ACTIONS.ENCODING;
+        STUDY_MESSAGE = CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower();
+        STUDY_KEY = CleanUp(CURRENT_KEY).ToLower();
+        STUDY_DEPTH = int.Parse(CleanUp(CURRENT_DEPTH));
+        STUDY_STEP = int.Parse(CleanUp(CURRENT_STEP));
+        STUDY_DIRECTION = CURRENT_DIRECTION;
         Controller.onStudyModeChanged?.Invoke(STEPS.SECOND, ACTIONS.ENCODING);
     }
 
     internal override void DecodeClick()
     {
-        EXAMINE_CURRENT_CHAR_POSITION = 0;
-        CURRENT_EXAMINE_ACTION = ACTIONS.DECODING;
-        EXAMINE_MESSAGE = CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower();
-        EXAMINE_KEY = CleanUp(CURRENT_KEY).ToLower();
-        EXAMINE_DEPTH = int.Parse(CleanUp(CURRENT_DEPTH));
-        EXAMINE_STEP = int.Parse(CleanUp(CURRENT_STEP));
-        EXAMINE_DIRECTION = CURRENT_DIRECTION;
+        STUDY_CURRENT_CHAR_POSITION = 0;
+        STUDY_CURRENT_ACTION = ACTIONS.DECODING;
+        STUDY_MESSAGE = CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower();
+        STUDY_KEY = CleanUp(CURRENT_KEY).ToLower();
+        STUDY_DEPTH = int.Parse(CleanUp(CURRENT_DEPTH));
+        STUDY_STEP = int.Parse(CleanUp(CURRENT_STEP));
+        STUDY_DIRECTION = CURRENT_DIRECTION;
         Controller.onStudyModeChanged?.Invoke(STEPS.SECOND, ACTIONS.DECODING);
     }
     private readonly Dictionary<string, CipherVector> vectorsDict = new();
     internal override void SetResult(STEPS newStep, ACTIONS newAction)
     {
-        switch (CURRENT_EXAMINE_STEP)
+        switch (STUDY_CURRENT_STEP)
         {
             case STEPS.NONE:
                 break;
             case STEPS.SECOND:
-                EXAMINE_CURRENT_LETTER = EXAMINE_MESSAGE[EXAMINE_CURRENT_CHAR_POSITION];
-                if (!vectorsDict.TryGetValue($"{EXAMINE_CURRENT_LETTER}{0}{EXAMINE_DIRECTION}{0}", out vect))
+                STUDY_CURRENT_CHAR = STUDY_MESSAGE[STUDY_CURRENT_CHAR_POSITION];
+                if (!vectorsDict.TryGetValue($"{STUDY_CURRENT_CHAR}{0}{STUDY_DIRECTION}{0}", out vect))
                 {
                     vect = new CipherVector(
-                    EXAMINE_CURRENT_LETTER.ToString(),
-                    EXAMINE_KEY[EXAMINE_CURRENT_CHAR_POSITION % EXAMINE_KEY.Length].ToString(),
-                    0, EXAMINE_DIRECTION, 0, CURRENT_ALPHABET);
-                    vectorsDict.TryAdd($"{EXAMINE_CURRENT_LETTER}{vect.Depth}{EXAMINE_DIRECTION}{vect.Step}", vect);
+                    STUDY_CURRENT_CHAR.ToString(),
+                    STUDY_KEY[STUDY_CURRENT_CHAR_POSITION % STUDY_KEY.Length].ToString(),
+                    0, STUDY_DIRECTION, 0, CURRENT_ALPHABET);
+                    vectorsDict.TryAdd($"{STUDY_CURRENT_CHAR}{vect.Depth}{STUDY_DIRECTION}{vect.Step}", vect);
                 }
-                EXAMINE_CODED_LETTER = Algorithm.Encode(vect);
+                STUDY_CODED_CHAR = Algorithm.Encode(vect);
                 Controller.onCodedCharChanged?.Invoke();
                 Controller.onCipherVectorChanged?.Invoke(vect);
                 break;
             case STEPS.THIRD:
-                if (!vectorsDict.TryGetValue($"{EXAMINE_CURRENT_LETTER}{EXAMINE_DEPTH}{EXAMINE_DIRECTION}{0}", out vect))
+                if (!vectorsDict.TryGetValue($"{STUDY_CURRENT_CHAR}{STUDY_DEPTH}{STUDY_DIRECTION}{0}", out vect))
                 {
                     vect = new CipherVector(
-                    EXAMINE_CURRENT_LETTER.ToString(),
-                    EXAMINE_KEY[EXAMINE_CURRENT_CHAR_POSITION % EXAMINE_KEY.Length].ToString(),
-                    EXAMINE_DEPTH, EXAMINE_DIRECTION, 0, CURRENT_ALPHABET);
-                    vectorsDict.TryAdd($"{EXAMINE_CURRENT_LETTER}{vect.Depth}{EXAMINE_DIRECTION}{vect.Step}", vect);
+                    STUDY_CURRENT_CHAR.ToString(),
+                    STUDY_KEY[STUDY_CURRENT_CHAR_POSITION % STUDY_KEY.Length].ToString(),
+                    STUDY_DEPTH, STUDY_DIRECTION, 0, CURRENT_ALPHABET);
+                    vectorsDict.TryAdd($"{STUDY_CURRENT_CHAR}{vect.Depth}{STUDY_DIRECTION}{vect.Step}", vect);
                 }
 
-                EXAMINE_CODED_LETTER = Algorithm.Encode(vect);
+                STUDY_CODED_CHAR = Algorithm.Encode(vect);
                 Controller.onCodedCharChanged?.Invoke();
                 Controller.onCipherVectorChanged?.Invoke(vect);
                 break;
             case STEPS.FOURTH:
-                if (!vectorsDict.TryGetValue($"{EXAMINE_CURRENT_LETTER}{EXAMINE_DEPTH}{EXAMINE_DIRECTION}{EXAMINE_STEP}", out vect))
+                if (!vectorsDict.TryGetValue($"{STUDY_CURRENT_CHAR}{STUDY_DEPTH}{STUDY_DIRECTION}{STUDY_STEP}", out vect))
                 {
                     vect = new CipherVector(
-                    EXAMINE_CURRENT_LETTER.ToString(),
-                    EXAMINE_KEY[EXAMINE_CURRENT_CHAR_POSITION % EXAMINE_KEY.Length].ToString(),
-                    EXAMINE_DEPTH, EXAMINE_DIRECTION, EXAMINE_STEP, CURRENT_ALPHABET);
-                    vectorsDict.TryAdd($"{EXAMINE_CURRENT_LETTER}{vect.Depth}{EXAMINE_DIRECTION}{vect.Step}", vect);
+                    STUDY_CURRENT_CHAR.ToString(),
+                    STUDY_KEY[STUDY_CURRENT_CHAR_POSITION % STUDY_KEY.Length].ToString(),
+                    STUDY_DEPTH, STUDY_DIRECTION, STUDY_STEP, CURRENT_ALPHABET);
+                    vectorsDict.TryAdd($"{STUDY_CURRENT_CHAR}{vect.Depth}{STUDY_DIRECTION}{vect.Step}", vect);
                 }
 
-                EXAMINE_CODED_LETTER = Algorithm.Encode(vect);
+                STUDY_CODED_CHAR = Algorithm.Encode(vect);
                 Controller.onCodedCharChanged?.Invoke();
                 Controller.onCipherVectorChanged?.Invoke(vect);
-                Controller.lightFourthStep?.Invoke(EXAMINE_CODED_LETTER, EXAMINE_KEY[EXAMINE_CURRENT_CHAR_POSITION % EXAMINE_KEY.Length].ToString());
+                Controller.lightFourthStep?.Invoke(STUDY_CODED_CHAR, STUDY_KEY[STUDY_CURRENT_CHAR_POSITION % STUDY_KEY.Length].ToString());
                 break;
             case STEPS.FIFTH:
-                EXAMINE_CURRENT_LETTER = EXAMINE_MESSAGE[EXAMINE_CURRENT_CHAR_POSITION];
-                if (!vectorsDict.TryGetValue($"{EXAMINE_CURRENT_LETTER}{EXAMINE_DEPTH}{EXAMINE_DIRECTION}{EXAMINE_STEP}", out vect))
+                STUDY_CURRENT_CHAR = STUDY_MESSAGE[STUDY_CURRENT_CHAR_POSITION];
+                if (!vectorsDict.TryGetValue($"{STUDY_CURRENT_CHAR}{STUDY_DEPTH}{STUDY_DIRECTION}{STUDY_STEP}", out vect))
                 {
                     vect = new CipherVector(
-                    EXAMINE_CURRENT_LETTER.ToString(),
-                    EXAMINE_KEY[EXAMINE_CURRENT_CHAR_POSITION % EXAMINE_KEY.Length].ToString(),
-                    EXAMINE_DEPTH, EXAMINE_DIRECTION, EXAMINE_STEP, CURRENT_ALPHABET);
-                    vectorsDict.TryAdd($"{EXAMINE_CURRENT_LETTER}{vect.Depth}{EXAMINE_DIRECTION}{vect.Step}", vect);
+                    STUDY_CURRENT_CHAR.ToString(),
+                    STUDY_KEY[STUDY_CURRENT_CHAR_POSITION % STUDY_KEY.Length].ToString(),
+                    STUDY_DEPTH, STUDY_DIRECTION, STUDY_STEP, CURRENT_ALPHABET);
+                    vectorsDict.TryAdd($"{STUDY_CURRENT_CHAR}{vect.Depth}{STUDY_DIRECTION}{vect.Step}", vect);
                 }
 
-                EXAMINE_CODED_LETTER = Algorithm.Encode(vect);
+                STUDY_CODED_CHAR = Algorithm.Encode(vect);
                 Controller.onCodedCharChanged?.Invoke();
                 Controller.onCipherVectorChanged?.Invoke(vect);
-                Controller.lightFourthStep?.Invoke(EXAMINE_CODED_LETTER, EXAMINE_KEY[EXAMINE_CURRENT_CHAR_POSITION % EXAMINE_KEY.Length].ToString());
-                result.text += EXAMINE_CODED_LETTER;
+                Controller.lightFourthStep?.Invoke(STUDY_CODED_CHAR, STUDY_KEY[STUDY_CURRENT_CHAR_POSITION % STUDY_KEY.Length].ToString());
+                result.text += STUDY_CODED_CHAR;
                 break;
             default: break;
         }

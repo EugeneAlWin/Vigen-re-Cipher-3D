@@ -23,7 +23,7 @@ public class Controller : MonoBehaviour
 
     void SetCurrentStepAndAction(STEPS newStep, ACTIONS action)
     {
-        CURRENT_EXAMINE_STEP = newStep;
-        CURRENT_EXAMINE_ACTION = action;
+        STUDY_CURRENT_STEP = newStep;
+        STUDY_CURRENT_ACTION = action;
     }
 }

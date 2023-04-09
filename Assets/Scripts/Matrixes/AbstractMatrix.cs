@@ -39,9 +39,9 @@ public abstract class AbstractMatrix : MonoBehaviour
         var dict = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinDictionary : Alphabets.CyrillicDictionary;
         byte xpos = (byte)dict[cipherVector.Message];
         byte ypos = (byte)dict[cipherVector.Key];
-        if (MatrixDictionary.TryGetValue(GetElementName(xpos, ypos, CURRENT_EXAMINE_STEP == STEPS.SECOND ?
+        if (MatrixDictionary.TryGetValue(GetElementName(xpos, ypos, STUDY_CURRENT_STEP == STEPS.SECOND ?
             byte.MinValue :
-            (byte)EXAMINE_DEPTH),
+            (byte)STUDY_DEPTH),
             out GameObject element))
         {
             if (swapObject != null) swapObject.GetComponent<Renderer>().material.color = swapColor;
@@ -58,23 +58,23 @@ public abstract class AbstractMatrix : MonoBehaviour
         var dict = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinDictionary : Alphabets.CyrillicDictionary;
         int ypos = dict[yChar];
         int xpos = 0;
-        switch (EXAMINE_DIRECTION)
+        switch (STUDY_DIRECTION)
         {
             case DIRECTIONS.TOP:
-                ypos -= EXAMINE_STEP;
+                ypos -= STUDY_STEP;
                 if (ypos < 0)
                     ypos = (ypos + MatrixLen) % MatrixLen;
                 break;
             case DIRECTIONS.BOTTOM:
-                ypos += EXAMINE_STEP;
+                ypos += STUDY_STEP;
                 break;
         }
         while (true)
         {
-            if (alphabet[(ypos + xpos + EXAMINE_DEPTH) % alphabet.Length] == xChar) break;
+            if (alphabet[(ypos + xpos + STUDY_DEPTH) % alphabet.Length] == xChar) break;
             xpos++;
         }
-        var name = GetElementName((byte)xpos, (byte)ypos, CURRENT_EXAMINE_STEP == STEPS.SECOND ? byte.MinValue : (byte)EXAMINE_DEPTH);
+        var name = GetElementName((byte)xpos, (byte)ypos, STUDY_CURRENT_STEP == STEPS.SECOND ? byte.MinValue : (byte)STUDY_DEPTH);
         if (MatrixDictionary.TryGetValue(name, out GameObject element))
         {
             if (swapObject != null) swapObject.GetComponent<Renderer>().material.color = swapColor;
