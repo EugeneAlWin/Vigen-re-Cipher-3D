@@ -8,7 +8,7 @@ public static class STATES
     #region DEMO
     public static string STUDY_MESSAGE { get; set; }
     public static string STUDY_KEY { get; set; }
-    public static char STUDY_CURRENT_CHAR { get; set; } = ' ';
+    public static string STUDY_CURRENT_CHAR { get; set; } = " ";
     public static int STUDY_CURRENT_CHAR_POSITION { get; set; } = 0;
     public static string STUDY_CODED_CHAR { get; set; }
     public static ACTIONS STUDY_CURRENT_ACTION { get; set; } = ACTIONS.NONE;

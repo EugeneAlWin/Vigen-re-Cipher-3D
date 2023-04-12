@@ -34,8 +34,10 @@ public abstract partial class AbstractInputsChecker : MonoBehaviour
         directionDropdown.value = (byte)CURRENT_DIRECTION;
         stepInput.text = CURRENT_STEP;
         Controller.onStudyModeChanged += SetResult;
+        Controller.onCodedCharChanged += CodedCharChanged;
         //---
     }
+    internal virtual void CodedCharChanged() { }
     internal abstract void SetResult(STEPS newStep, ACTIONS newAction);
     internal virtual void EncodeClick()
     {

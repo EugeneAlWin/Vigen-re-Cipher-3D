@@ -37,7 +37,7 @@ public abstract class AbstractMatrix : MonoBehaviour
     }
     internal void LightUpChar(CipherVector cipherVector)
     {
-        if (STATES.CURRENT_ALPHABET != MatrixType) return;
+        if (CURRENT_ALPHABET != MatrixType) return;
         var dict = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinDictionary : Alphabets.CyrillicDictionary;
         byte xpos = (byte)dict[cipherVector.Message];
         byte ypos = (byte)dict[cipherVector.Key];
@@ -56,20 +56,23 @@ public abstract class AbstractMatrix : MonoBehaviour
     }
     internal void LightUpChar(string xChar, string yChar)
     {
-        if (STATES.CURRENT_ALPHABET != MatrixType) return;
+        if (CURRENT_ALPHABET != MatrixType) return;
         var alphabet = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinAlphabet : Alphabets.CyrillicAlphabet;
         var dict = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinDictionary : Alphabets.CyrillicDictionary;
         int ypos = dict[yChar];
         int xpos = 0;
+
         switch (STUDY_DIRECTION)
         {
             case DIRECTIONS.TOP:
-                ypos -= STUDY_STEP;
+                ypos = STUDY_CURRENT_ACTION == ACTIONS.ENCODING ? ypos - STUDY_STEP : ypos + STUDY_STEP;
                 if (ypos < 0)
                     ypos = (ypos + MatrixLen) % MatrixLen;
                 break;
             case DIRECTIONS.BOTTOM:
-                ypos += STUDY_STEP;
+                ypos = STUDY_CURRENT_ACTION == ACTIONS.ENCODING ? ypos + STUDY_STEP : ypos - STUDY_STEP;
+                if (ypos < 0)
+                    ypos = (ypos + MatrixLen) % MatrixLen;
                 break;
         }
         while (true)
@@ -86,9 +89,10 @@ public abstract class AbstractMatrix : MonoBehaviour
             element.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.color = Color.white;
         }
     }
+
     internal void SetZLayerVisibillity(byte howMuchToHide = 0)
     {
-        if (STATES.CURRENT_ALPHABET != MatrixType && MatrixType != ALPHABETS.DIGITAL) return;
+        if (CURRENT_ALPHABET != MatrixType && MatrixType != ALPHABETS.DIGITAL) return;
         for (byte z = 0; z < MatrixLen; z++)
             for (byte y = 0; y < MatrixLen; y++)
                 for (byte x = 0; x < MatrixLen; x++)
@@ -97,7 +101,7 @@ public abstract class AbstractMatrix : MonoBehaviour
     }
     internal void SetZLayerVisibillity(byte start, byte end)
     {
-        if (STATES.CURRENT_ALPHABET != MatrixType) return;
+        if (CURRENT_ALPHABET != MatrixType) return;
         for (byte z = 0; z < MatrixLen; z++)
             for (byte y = 0; y < MatrixLen; y++)
                 for (byte x = 0; x < MatrixLen; x++)
@@ -106,7 +110,7 @@ public abstract class AbstractMatrix : MonoBehaviour
     }
     internal void SetZLayerVisibillity(CipherVector chiperVector)
     {
-        if (STATES.CURRENT_ALPHABET != MatrixType) return;
+        if (CURRENT_ALPHABET != MatrixType) return;
         for (byte z = 0; z < MatrixLen; z++)
             for (byte y = 0; y < MatrixLen; y++)
                 for (byte x = 0; x < MatrixLen; x++)
@@ -116,14 +120,13 @@ public abstract class AbstractMatrix : MonoBehaviour
 
     internal void OnStudyModeChanged(STEPS newStep, ACTIONS action)
     {
-        if (STATES.CURRENT_ALPHABET != MatrixType) return;
         switch (newStep)
         {
             case STEPS.NONE:
                 SetZLayerVisibillity(MatrixLen);
                 break;
             case STEPS.FIRST:
-                SetZLayerVisibillity(0, 1);
+                SetZLayerVisibillity(0, 2);
                 break;
             default:
                 break;

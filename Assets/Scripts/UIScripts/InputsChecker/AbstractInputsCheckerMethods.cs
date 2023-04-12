@@ -4,7 +4,7 @@ using static STATES;
 
 public abstract partial class AbstractInputsChecker : MonoBehaviour
 {
-    private void MessageValueChanged()
+    internal void MessageValueChanged()
     {
         string trimmedMessage = CleanUp(messageInput.text);
         if (
@@ -15,7 +15,7 @@ public abstract partial class AbstractInputsChecker : MonoBehaviour
             CURRENT_MESSAGE = "<color=#fff>" + trimmedMessage + "</color>";
         messageInput.text = CURRENT_MESSAGE;
     }
-    private void KeyValueChanged()
+    internal void KeyValueChanged()
     {
         string trimmedKey = CleanUp(keyInput.text);
         if (
@@ -26,18 +26,18 @@ public abstract partial class AbstractInputsChecker : MonoBehaviour
             CURRENT_KEY = "<color=#fff>" + trimmedKey + "</color>";
         keyInput.text = CURRENT_KEY;
     }
-    private void DepthValueChanged()
+    internal void DepthValueChanged()
     {
         string trimmedDepth = CleanUp(depthInput.text);
         if (InputRegex.IsMatch(trimmedDepth, InputRegex.Depth) && trimmedDepth.Length <= 2)
             CURRENT_DEPTH = "<color=#fff>" + trimmedDepth + "</color>";
         depthInput.text = CURRENT_DEPTH;
     }
-    private void DirectionValueChanged()
+    internal void DirectionValueChanged()
     {
         CURRENT_DIRECTION = (DIRECTIONS)directionDropdown.value;
     }
-    private void StepValueChanged()
+    internal void StepValueChanged()
     {
         string trimmedStep = CleanUp(stepInput.text);
         if (InputRegex.IsMatch(trimmedStep, InputRegex.Step) && trimmedStep.Length <= 2)

@@ -27,7 +27,7 @@ public class SetStepAndDescription : MonoBehaviour
             case STEPS.FIRST:
                 {
                     stepFieldText = "Шаг 1:";
-                    descriptionFieldText = "Необходимо ввести сообщение для кодирования, ключ, глубину кодирования, направление и шаг ";
+                    descriptionFieldText = "Необходимо ввести сообщение для кодирования, ключ, глубину кодирования, направление и шаг. Язык можно сменить в главном меню";
                     break;
                 }
             case STEPS.SECOND:
