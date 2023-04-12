@@ -12,7 +12,7 @@ public class HowIsItWorks : MonoBehaviour, IPointerClickHandler
         switch (CURRENT_ALPHABET)
         {
             case ALPHABETS.LATIN:
-                //Camera.SetCameraPosition(Camera.CyrillicMatrixPosition, Camera.CyrillicMatrixRotation);
+                Camera.SetCameraPosition(Camera.LatinMatrixPosition, Camera.LatinMatrixRotation);
                 break;
             case ALPHABETS.CYRILLIC:
                 Camera.SetCameraPosition(Camera.CyrillicMatrixPosition, Camera.CyrillicMatrixRotation);

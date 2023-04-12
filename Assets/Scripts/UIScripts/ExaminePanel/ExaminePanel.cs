@@ -13,6 +13,7 @@ public class ExaminePanel : MonoBehaviour
         oneTimeElements.SetActive(true);
         afterStep1Panel.SetActive(false);
     }
+
     static internal void SetPanelVisibility(bool isVisible)
     {
         panel.SetActive(isVisible);

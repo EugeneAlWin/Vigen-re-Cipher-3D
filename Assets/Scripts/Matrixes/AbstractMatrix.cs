@@ -7,7 +7,8 @@ public abstract class AbstractMatrix : MonoBehaviour
 {
     internal Vector3 initialPosition;
     public abstract byte MatrixLen { get; set; }
-    public abstract string MatrixType { get; set; }
+    public abstract string MatrixPrefix { get; set; }
+    internal abstract ALPHABETS MatrixType { get; set; }
     internal abstract ElementTransform ET { get; set; }
     internal abstract GameObject[] Matrix { get; set; }
     internal abstract Dictionary<string, GameObject> MatrixDictionary { get; set; }
@@ -15,7 +16,7 @@ public abstract class AbstractMatrix : MonoBehaviour
     internal static readonly byte colorsLen = (byte)colors.Length;
     internal GameObject swapObject = null;
     private Color swapColor;
-    internal string GetElementName(byte x, byte y, byte z) => $"{MatrixType}-z{z}x{y}y{x}";
+    internal string GetElementName(byte x, byte y, byte z) => $"{MatrixPrefix}-z{z}x{y}y{x}";
     internal void GenMatrix(byte x_limit, byte y_limit, byte z_limit)
     {
         for (byte z = 0; z < z_limit; z++)
@@ -34,8 +35,9 @@ public abstract class AbstractMatrix : MonoBehaviour
                     MatrixDictionary.Add(instance.name, instance);
                 }
     }
-    internal virtual void LightUpChar(CipherVector cipherVector)
+    internal void LightUpChar(CipherVector cipherVector)
     {
+        if (STATES.CURRENT_ALPHABET != MatrixType) return;
         var dict = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinDictionary : Alphabets.CyrillicDictionary;
         byte xpos = (byte)dict[cipherVector.Message];
         byte ypos = (byte)dict[cipherVector.Key];
@@ -52,8 +54,9 @@ public abstract class AbstractMatrix : MonoBehaviour
             SetZLayerVisibillity(cipherVector);
         }
     }
-    internal virtual void LightUpChar(string xChar, string yChar)
+    internal void LightUpChar(string xChar, string yChar)
     {
+        if (STATES.CURRENT_ALPHABET != MatrixType) return;
         var alphabet = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinAlphabet : Alphabets.CyrillicAlphabet;
         var dict = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinDictionary : Alphabets.CyrillicDictionary;
         int ypos = dict[yChar];
@@ -85,6 +88,7 @@ public abstract class AbstractMatrix : MonoBehaviour
     }
     internal void SetZLayerVisibillity(byte howMuchToHide = 0)
     {
+        if (STATES.CURRENT_ALPHABET != MatrixType && MatrixType != ALPHABETS.DIGITAL) return;
         for (byte z = 0; z < MatrixLen; z++)
             for (byte y = 0; y < MatrixLen; y++)
                 for (byte x = 0; x < MatrixLen; x++)
@@ -93,6 +97,7 @@ public abstract class AbstractMatrix : MonoBehaviour
     }
     internal void SetZLayerVisibillity(byte start, byte end)
     {
+        if (STATES.CURRENT_ALPHABET != MatrixType) return;
         for (byte z = 0; z < MatrixLen; z++)
             for (byte y = 0; y < MatrixLen; y++)
                 for (byte x = 0; x < MatrixLen; x++)
@@ -101,10 +106,27 @@ public abstract class AbstractMatrix : MonoBehaviour
     }
     internal void SetZLayerVisibillity(CipherVector chiperVector)
     {
+        if (STATES.CURRENT_ALPHABET != MatrixType) return;
         for (byte z = 0; z < MatrixLen; z++)
             for (byte y = 0; y < MatrixLen; y++)
                 for (byte x = 0; x < MatrixLen; x++)
                     if (MatrixDictionary.TryGetValue(GetElementName(x, y, z), out GameObject gm))
                         gm.SetActive(z == (chiperVector.Depth % (int)MatrixLen));
+    }
+
+    internal void OnStudyModeChanged(STEPS newStep, ACTIONS action)
+    {
+        if (STATES.CURRENT_ALPHABET != MatrixType) return;
+        switch (newStep)
+        {
+            case STEPS.NONE:
+                SetZLayerVisibillity(MatrixLen);
+                break;
+            case STEPS.FIRST:
+                SetZLayerVisibillity(0, 1);
+                break;
+            default:
+                break;
+        }
     }
 }

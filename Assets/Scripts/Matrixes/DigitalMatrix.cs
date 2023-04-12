@@ -8,11 +8,12 @@ public class DigitalMatrix : AbstractMatrix
 
     [SerializeField] private float period = 4f; // time for one complete cycle in seconds
     [field: SerializeField] public override byte MatrixLen { get; set; } = 10;
-    [field: SerializeField] public override string MatrixType { get; set; } = "DIGITAL";
+    [field: SerializeField] public override string MatrixPrefix { get; set; } = "DIGITAL";
     internal override Dictionary<string, GameObject> MatrixDictionary { get; set; }
 
     internal override GameObject[] Matrix { get; set; }
     internal override ElementTransform ET { get; set; }
+    internal override ALPHABETS MatrixType { get; set; } = ALPHABETS.DIGITAL;
 
     void Awake()
     {

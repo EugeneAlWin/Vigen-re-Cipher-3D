@@ -27,6 +27,7 @@
     {
         LATIN,
         CYRILLIC,
+        DIGITAL,
     }
     public enum NAV
     {
