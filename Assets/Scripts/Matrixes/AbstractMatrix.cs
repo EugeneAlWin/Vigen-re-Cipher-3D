@@ -41,10 +41,12 @@ public abstract class AbstractMatrix : MonoBehaviour
         var dict = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinDictionary : Alphabets.CyrillicDictionary;
         byte xpos = (byte)dict[cipherVector.Message];
         byte ypos = (byte)dict[cipherVector.Key];
-        if (MatrixDictionary.TryGetValue(GetElementName(xpos, ypos, STUDY_CURRENT_STEP == STEPS.SECOND ?
-            byte.MinValue :
-            (byte)STUDY_DEPTH),
-            out GameObject element))
+        string name;
+        if (STUDY_CURRENT_ACTION == ACTIONS.ENCODING)
+            name = GetElementName((byte)xpos, (byte)ypos, STUDY_CURRENT_STEP == STEPS.SECOND ? byte.MinValue : (byte)STUDY_DEPTH);
+        else
+            name = GetElementName((byte)xpos, (byte)ypos, STUDY_CURRENT_STEP == STEPS.FIFTH || STUDY_CURRENT_STEP == STEPS.FOURTH ? byte.MinValue : (byte)STUDY_DEPTH);
+        if (MatrixDictionary.TryGetValue(name, out GameObject element))
         {
             if (swapObject != null) swapObject.GetComponent<Renderer>().material.color = swapColor;
 
@@ -54,7 +56,7 @@ public abstract class AbstractMatrix : MonoBehaviour
             SetZLayerVisibillity(cipherVector);
         }
     }
-    internal void LightUpChar(string xChar, string yChar)
+    internal void LightUpChar(string xChar, string yChar, int step)
     {
         if (CURRENT_ALPHABET != MatrixType) return;
         var alphabet = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinAlphabet : Alphabets.CyrillicAlphabet;
@@ -65,22 +67,28 @@ public abstract class AbstractMatrix : MonoBehaviour
         switch (STUDY_DIRECTION)
         {
             case DIRECTIONS.TOP:
-                ypos = STUDY_CURRENT_ACTION == ACTIONS.ENCODING ? ypos - STUDY_STEP : ypos + STUDY_STEP;
+                ypos -= step;
                 if (ypos < 0)
                     ypos = (ypos + MatrixLen) % MatrixLen;
                 break;
             case DIRECTIONS.BOTTOM:
-                ypos = STUDY_CURRENT_ACTION == ACTIONS.ENCODING ? ypos + STUDY_STEP : ypos - STUDY_STEP;
+                ypos += step;
                 if (ypos < 0)
                     ypos = (ypos + MatrixLen) % MatrixLen;
                 break;
         }
+
         while (true)
         {
             if (alphabet[(ypos + xpos + STUDY_DEPTH) % alphabet.Length] == xChar) break;
             xpos++;
         }
-        var name = GetElementName((byte)xpos, (byte)ypos, STUDY_CURRENT_STEP == STEPS.SECOND ? byte.MinValue : (byte)STUDY_DEPTH);
+
+        string name;
+        if (STUDY_CURRENT_ACTION == ACTIONS.ENCODING)
+            name = GetElementName((byte)xpos, (byte)ypos, STUDY_CURRENT_STEP == STEPS.SECOND ? byte.MinValue : (byte)STUDY_DEPTH);
+        else
+            name = GetElementName((byte)xpos, (byte)ypos, STUDY_CURRENT_STEP == STEPS.SECOND || STUDY_CURRENT_STEP == STEPS.THIRD ? (byte)STUDY_DEPTH : byte.MinValue);
         if (MatrixDictionary.TryGetValue(name, out GameObject element))
         {
             if (swapObject != null) swapObject.GetComponent<Renderer>().material.color = swapColor;

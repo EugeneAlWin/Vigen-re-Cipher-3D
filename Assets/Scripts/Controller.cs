@@ -4,7 +4,7 @@ using static STATES;
 
 public delegate void StudyModeChangedDelegate(STEPS newStep, ACTIONS action);
 public delegate void CipherVectorChangedDelegate(CipherVector cipherVector);
-public delegate void LightFourthStepDelegate(string xChar, string yChar);
+public delegate void LightNonZZeroElementDelegate(string xChar, string yCharm, int step);
 public delegate void NavButtonsPressedDelegate(NAV newNavigation);
 public delegate void CodedCharChangedDelegate();
 
@@ -14,7 +14,7 @@ public class Controller : MonoBehaviour
     public static CipherVectorChangedDelegate onCipherVectorChanged;
     public static NavButtonsPressedDelegate onNavButtonsPressed;
     public static CodedCharChangedDelegate onCodedCharChanged;
-    public static LightFourthStepDelegate lightFourthStep;
+    public static LightNonZZeroElementDelegate onLightNonZZeroElement;
 
     void Awake()
     {

@@ -16,7 +16,7 @@ public class CyrillicMatrix : AbstractMatrix
     {
         Controller.onStudyModeChanged += OnStudyModeChanged;
         Controller.onCipherVectorChanged += LightUpChar;
-        Controller.lightFourthStep += LightUpChar;
+        Controller.onLightNonZZeroElement += LightUpChar;
         Controller.onCipherVectorChanged += SetZLayerVisibillity;
         MatrixDictionary = new Dictionary<string, GameObject>();
         Matrix = new GameObject[MatrixLen];
