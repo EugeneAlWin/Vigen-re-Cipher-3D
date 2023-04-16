@@ -57,6 +57,8 @@ public abstract partial class AbstractInputsChecker : MonoBehaviour
     }
     internal virtual void DecodeClick()
     {
+        if (CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower() == "") return;
+        if (CleanUp(CURRENT_KEY).ToLower() == "") return;
         var cipherText = new CipherVector()
         {
             Message = CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower(),
