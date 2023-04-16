@@ -24,13 +24,15 @@ public class ExaminePanelInputsChecker : AbstractInputsChecker
         STUDY_DEPTH = int.Parse(CleanUp(CURRENT_DEPTH));
         STUDY_STEP = int.Parse(CleanUp(CURRENT_STEP));
         STUDY_DIRECTION = CURRENT_DIRECTION;
-        BUFFER = STUDY_CURRENT_ACTION == ACTIONS.ENCODING ? STUDY_MESSAGE : Algorithm.Decode(new CipherVector(
-            STUDY_MESSAGE,
-            STUDY_KEY,
-            STUDY_DEPTH,
-            STUDY_DIRECTION,
-            STUDY_STEP,
-            CURRENT_ALPHABET));
+        BUFFER = STUDY_CURRENT_ACTION == ACTIONS.ENCODING ? STUDY_MESSAGE : Algorithm.Decode(
+            new CipherVector(
+                STUDY_MESSAGE,
+                STUDY_KEY,
+                STUDY_DEPTH,
+                STUDY_DIRECTION,
+                STUDY_STEP,
+                CURRENT_ALPHABET
+            ));
         Controller.onStudyModeChanged?.Invoke(STEPS.SECOND, action);
         Controller.onCodedCharChanged?.Invoke();
     }
@@ -82,15 +84,15 @@ public class ExaminePanelInputsChecker : AbstractInputsChecker
     }
     internal override void SetResult(STEPS newStep, ACTIONS newAction)
     {
+
+        if (STUDY_CURRENT_STEP == STEPS.FIRST || STUDY_CURRENT_STEP == STEPS.NONE || STUDY_CURRENT_STEP == STEPS.SIXTH) return;
+        SetNewMessageAndKeyChar();
+        vect = TryGetVector();
+        STUDY_CODED_CHAR = Algorithm.Encode(vect);
+        Controller.onCodedCharChanged?.Invoke();
+        Controller.onCipherVectorChanged?.Invoke(vect);
         if (STUDY_CURRENT_ACTION == ACTIONS.ENCODING)
         {
-            if (STUDY_CURRENT_STEP == STEPS.FIRST || STUDY_CURRENT_STEP == STEPS.NONE || STUDY_CURRENT_STEP == STEPS.SIXTH) return;
-            SetNewMessageAndKeyChar();
-            vect = TryGetVector();
-            STUDY_CODED_CHAR = Algorithm.Encode(vect);
-            Controller.onCodedCharChanged?.Invoke();
-            Controller.onCipherVectorChanged?.Invoke(vect);
-
             switch (STUDY_CURRENT_STEP)
             {
                 case STEPS.FOURTH:
@@ -111,12 +113,6 @@ public class ExaminePanelInputsChecker : AbstractInputsChecker
         }
         else
         {
-            if (STUDY_CURRENT_STEP == STEPS.FIRST || STUDY_CURRENT_STEP == STEPS.NONE || STUDY_CURRENT_STEP == STEPS.SIXTH) return;
-            SetNewMessageAndKeyChar();
-            vect = TryGetVector();
-            STUDY_CODED_CHAR = Algorithm.Encode(vect);
-            Controller.onCodedCharChanged?.Invoke();
-            Controller.onCipherVectorChanged?.Invoke(vect);
             switch (STUDY_CURRENT_STEP)
             {
                 case STEPS.SECOND:
