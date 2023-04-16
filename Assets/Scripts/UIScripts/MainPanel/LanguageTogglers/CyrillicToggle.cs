@@ -8,5 +8,6 @@ internal class CyrillicToggle : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         CURRENT_ALPHABET = ALPHABETS.CYRILLIC;
+        Controller.onResetField?.Invoke();
     }
 }

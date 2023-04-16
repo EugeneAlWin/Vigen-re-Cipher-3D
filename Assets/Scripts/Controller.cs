@@ -7,6 +7,7 @@ public delegate void CipherVectorChangedDelegate(CipherVector cipherVector);
 public delegate void LightNonZZeroElementDelegate(string xChar, string yCharm, int step);
 public delegate void NavButtonsPressedDelegate(NAV newNavigation);
 public delegate void CodedCharChangedDelegate();
+public delegate void ResetFieldDelegate();
 
 public class Controller : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Controller : MonoBehaviour
     public static NavButtonsPressedDelegate onNavButtonsPressed;
     public static CodedCharChangedDelegate onCodedCharChanged;
     public static LightNonZZeroElementDelegate onLightNonZZeroElement;
+    public static ResetFieldDelegate onResetField;
 
     void Awake()
     {

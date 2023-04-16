@@ -8,5 +8,6 @@ internal class LatinToggle : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         CURRENT_ALPHABET = ALPHABETS.LATIN;
+        Controller.onResetField?.Invoke();
     }
 }

@@ -35,7 +35,12 @@ public abstract partial class AbstractInputsChecker : MonoBehaviour
         stepInput.text = CURRENT_STEP;
         Controller.onStudyModeChanged += SetResult;
         Controller.onCodedCharChanged += CodedCharChanged;
+        Controller.onResetField += ResetFields;
         //---
+    }
+    internal void ResetFields()
+    {
+        messageInput.text = keyInput.text = resultInput.text = "";
     }
     internal virtual void CodedCharChanged() { }
     internal abstract void SetResult(STEPS newStep, ACTIONS newAction);

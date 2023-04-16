@@ -16,6 +16,8 @@ public class ExaminePanelInputsChecker : AbstractInputsChecker
     private void Update() => nextButton.gameObject.SetActive(STUDY_CURRENT_STEP != STEPS.SIXTH);
     private void GetInputs(ACTIONS action)
     {
+        if (CleanUp(CURRENT_MESSAGE).Replace(" ", "").ToLower() == "") return;
+        if (CleanUp(CURRENT_KEY).ToLower() == "") return;
         result.text = "";
         STUDY_CURRENT_CHAR_POSITION = 0;
         STUDY_CURRENT_ACTION = action;

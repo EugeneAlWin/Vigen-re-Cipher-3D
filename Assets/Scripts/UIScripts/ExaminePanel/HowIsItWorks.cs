@@ -9,6 +9,7 @@ public class HowIsItWorks : MonoBehaviour, IPointerClickHandler
     {
         ExaminePanel.SetPanelVisibility(true);
         Controller.onStudyModeChanged?.Invoke(STEPS.FIRST, ACTIONS.NONE);
+        Controller.onResetField?.Invoke();
         switch (CURRENT_ALPHABET)
         {
             case ALPHABETS.LATIN:
