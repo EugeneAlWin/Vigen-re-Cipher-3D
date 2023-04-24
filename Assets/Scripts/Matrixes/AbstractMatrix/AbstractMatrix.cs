@@ -11,7 +11,7 @@ public abstract partial class AbstractMatrix : MonoBehaviour
     internal abstract ElementTransform ET { get; set; }
     internal abstract GameObject[] Matrix { get; set; }
     internal abstract Dictionary<string, GameObject> MatrixDictionary { get; set; }
-    internal static readonly Color[] colors = { Color.red, Color.blue, Color.green };
+    internal static readonly Color[] colors = { Color.red, Color.cyan, Color.green };
     internal static readonly byte colorsLen = (byte)colors.Length;
     internal GameObject swapObject = null;
     private Color swapColor;
