@@ -15,8 +15,6 @@ public abstract partial class AbstractMatrix : MonoBehaviour
             name = GetElementName(xpos, ypos, (byte)(cipherVector.Depth % MatrixLen));
         else
             name = GetElementName(xpos, ypos, (byte)(cipherVector.Depth % MatrixLen));
-        Debug.Log(name);
-
         TryToLightUp(name);
     }
     internal void LightUpChar(string xChar, string yChar, int step)
@@ -54,7 +52,6 @@ public abstract partial class AbstractMatrix : MonoBehaviour
             name = GetElementName((byte)xpos, (byte)ypos, (byte)(STUDY_CURRENT_STEP < STEPS.THIRD ? byte.MinValue : STUDY_DEPTH % MatrixLen));
         else
             name = GetElementName((byte)xpos, (byte)ypos, (byte)(STUDY_CURRENT_STEP == STEPS.SECOND || STUDY_CURRENT_STEP == STEPS.THIRD ? (byte)STUDY_DEPTH % MatrixLen : byte.MinValue));
-        Debug.Log(name);
         TryToLightUp(name);
 
     }

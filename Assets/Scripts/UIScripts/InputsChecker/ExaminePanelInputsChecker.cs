@@ -12,7 +12,7 @@ public class ExaminePanelInputsChecker : AbstractInputsChecker
     [SerializeField] private TMP_Text currentMessageChar, currentKeyChar;
     [SerializeField] private TMP_InputField fullMessage, fullKey, result;
     private readonly Dictionary<string, CipherVector> vectorsDict = new();
-    private string BUFFER = "";
+    private string BUFFER = "", CURRENT_BUFFER_CHAR = "";
     private void Update() => nextButton.gameObject.SetActive(STUDY_CURRENT_STEP != STEPS.SIXTH);
     private void GetInputs(ACTIONS action)
     {
@@ -54,8 +54,10 @@ public class ExaminePanelInputsChecker : AbstractInputsChecker
     }
     private void SetNewMessageAndKeyChar()
     {
-        STUDY_CURRENT_CHAR = BUFFER[STUDY_CURRENT_CHAR_POSITION].ToString();
+        STUDY_CURRENT_CHAR = STUDY_MESSAGE[STUDY_CURRENT_CHAR_POSITION].ToString();
+        CURRENT_BUFFER_CHAR = BUFFER[STUDY_CURRENT_CHAR_POSITION].ToString();
         STUDY_KEY_CHAR = STUDY_KEY[STUDY_CURRENT_CHAR_POSITION % STUDY_KEY.Length].ToString();
+        Controller.onCodedCharChanged.Invoke();
     }
 
     private CipherVector TryGetVector()
@@ -71,16 +73,16 @@ public class ExaminePanelInputsChecker : AbstractInputsChecker
             buffDepth = STUDY_CURRENT_STEP > STEPS.THIRD ? 0 : STUDY_DEPTH;
             buffStep = STUDY_CURRENT_STEP > STEPS.SECOND ? 0 : STUDY_STEP;
         }
-        if (!vectorsDict.TryGetValue($"{STUDY_CURRENT_CHAR}{STUDY_KEY_CHAR}{buffDepth}{STUDY_DIRECTION}{buffStep}", out vect))
+        if (!vectorsDict.TryGetValue($"{CURRENT_BUFFER_CHAR}{STUDY_KEY_CHAR}{buffDepth}{STUDY_DIRECTION}{buffStep}", out vect))
         {
             vect = new CipherVector(
-            STUDY_CURRENT_CHAR,
+            CURRENT_BUFFER_CHAR,
             STUDY_KEY_CHAR,
             buffDepth,
             STUDY_DIRECTION,
             buffStep,
             CURRENT_ALPHABET);
-            vectorsDict.TryAdd($"{STUDY_CURRENT_CHAR}{STUDY_KEY_CHAR}{vect.Depth}{STUDY_DIRECTION}{vect.Step}", vect);
+            vectorsDict.TryAdd($"{CURRENT_BUFFER_CHAR}{STUDY_KEY_CHAR}{vect.Depth}{STUDY_DIRECTION}{vect.Step}", vect);
         }
         return vect;
     }

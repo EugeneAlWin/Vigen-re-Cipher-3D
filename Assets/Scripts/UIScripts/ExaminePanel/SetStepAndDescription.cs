@@ -64,13 +64,31 @@ public class SetStepAndDescription : MonoBehaviour
                         " направление и шаг. Язык можно сменить в главном меню.";
                     break;
                 case STEPS.SECOND:
+                    var currentDict = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinDictionary : Alphabets.CyrillicDictionary;
+                    var currentAlph = CURRENT_ALPHABET == ALPHABETS.LATIN ? Alphabets.LatinAlphabet : Alphabets.CyrillicAlphabet;
+                    string temp = "";
+                    int step = 0;
+                    if (STUDY_DIRECTION == DIRECTIONS.TOP)
+                    {
+                        temp = $"А так же сделать шаг вверх на `{STUDY_STEP}` по модулю алфавита";
+                        step = -STUDY_STEP;
+                    }
+                    else if (STUDY_DIRECTION == DIRECTIONS.BOTTOM)
+                    {
+                        temp = $"А так же сделать шаг вниз на `{STUDY_STEP}` по модулю алфавита";
+                        step = STUDY_STEP;
+                    }
+                    string keyChar = STUDY_KEY[STUDY_CURRENT_CHAR_POSITION % STUDY_KEY.Length].ToString(); //trash i know
+                    string charInLeftRow = currentAlph[(currentDict[keyChar] + STUDY_DEPTH + step) % currentAlph.Length];
+
                     stepFieldText = "Шаг 2:";
-                    descriptionFieldText = $"На глубине `{STUDY_DEPTH}` по вертикали на левом ряду найти букву ключа {STUDY_KEY_CHAR} и в " +
-                        $"этой строке найти букву {STUDY_CURRENT_CHAR} шифртекста. Результат: `{STUDY_CODED_CHAR}`";
+                    descriptionFieldText = $"К индексу ключа `{keyChar}` прибавить значение глубины `{STUDY_DEPTH}` по модулю алфавита, " +
+                        temp + $" (Получается `{charInLeftRow}`). " +
+                        $"Найти полученную букву слева и в этом ряду найти букву шифртекста `{STUDY_CURRENT_CHAR}`.";
                     break;
                 case STEPS.THIRD:
                     stepFieldText = "Шаг 3:";
-                    descriptionFieldText = $"Сдвинутся на шаг {STUDY_STEP} в направлении, противоположном {STUDY_DIRECTION} " +
+                    descriptionFieldText = $"Сдвинутся на шаг `{STUDY_STEP}` в направлении, противоположном `{STUDY_DIRECTION}` " +
                         $"(R - вправо, L -влево, T - вверх, B - вниз). Результат: `{STUDY_CODED_CHAR}`";
                     break;
                 case STEPS.FOURTH:
