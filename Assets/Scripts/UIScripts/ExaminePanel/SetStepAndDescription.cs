@@ -70,16 +70,19 @@ public class SetStepAndDescription : MonoBehaviour
                     int step = 0;
                     if (STUDY_DIRECTION == DIRECTIONS.TOP)
                     {
-                        temp = $"А так же сделать шаг вверх на `{STUDY_STEP}` по модулю алфавита";
+                        temp = $"а так же сделать шаг вверх на `{STUDY_STEP}` по модулю алфавита";
                         step = -STUDY_STEP;
                     }
                     else if (STUDY_DIRECTION == DIRECTIONS.BOTTOM)
                     {
-                        temp = $"А так же сделать шаг вниз на `{STUDY_STEP}` по модулю алфавита";
+                        temp = $"а так же сделать шаг вниз на `{STUDY_STEP}` по модулю алфавита";
                         step = STUDY_STEP;
                     }
+
                     string keyChar = STUDY_KEY[STUDY_CURRENT_CHAR_POSITION % STUDY_KEY.Length].ToString(); //trash i know
-                    string charInLeftRow = currentAlph[(currentDict[keyChar] + STUDY_DEPTH + step) % currentAlph.Length];
+                    var letterIndex = (currentDict[keyChar] + STUDY_DEPTH + step) % currentAlph.Length;
+                    if (letterIndex < 0) letterIndex = (currentAlph.Length + letterIndex) % currentAlph.Length; //mod just in case | plus cuz < 0
+                    string charInLeftRow = currentAlph[letterIndex];
 
                     stepFieldText = "Шаг 2:";
                     descriptionFieldText = $"К индексу ключа `{keyChar}` прибавить значение глубины `{STUDY_DEPTH}` по модулю алфавита, " +
