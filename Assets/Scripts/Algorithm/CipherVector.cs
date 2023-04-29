@@ -19,4 +19,8 @@ public class CipherVector
         Step = step;
         AlphabetType = alphabetType;
     }
+    public override string ToString()
+    {
+        return Message + " " + Key + " " + Depth + " " + Direction + Step + " " + AlphabetType;
+    }
 }
