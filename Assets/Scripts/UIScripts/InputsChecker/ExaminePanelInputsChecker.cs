@@ -131,6 +131,14 @@ public class ExaminePanelInputsChecker : AbstractInputsChecker
                         STUDY_KEY, STUDY_DEPTH, STUDY_DIRECTION, STUDY_STEP, CURRENT_ALPHABET);
                     result.text = "<color=#fff>" + Algorithm.Decode(vect) + "</color>";
                     STUDY_CODED_CHAR = Algorithm.Decode(vect)[STUDY_CURRENT_CHAR_POSITION].ToString();
+
+                    //trash alert
+                    vect.Key = CURRENT_ALPHABET == ALPHABETS.LATIN ? "a" : "а"; // first line of matrix
+                    vect.Message = STUDY_CODED_CHAR;
+                    vect.Depth = 0;
+                    //trash alert
+
+                    Controller.onCipherVectorChanged?.Invoke(vect);
                     Controller.onCodedCharChanged?.Invoke();
                     break;
                 default: break;
