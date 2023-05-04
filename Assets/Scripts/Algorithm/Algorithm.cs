@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using static ENUMS;
 
 public class Algorithm
 {
-    public static string Encode(CipherVector cipherText)
+    public static string Encode(CipherVector cipherText, TMP_Text elapsed = null)
     {
+        var startTime = DateTime.Now;
         var (message, key, depth, direction, step, alphabetType) = UnwrapCipherVector(cipherText);
         var (charToIndexDict, alphabet, alphabetLen) = GetAlphabetParams(alphabetType);
 
@@ -21,11 +24,14 @@ public class Algorithm
                 indexOfEncodedLetter = (indexOfEncodedLetter + alphabetLen) % alphabetLen;
             encodedMessage += alphabet[indexOfEncodedLetter];
         }
+        if (elapsed != null)
+            elapsed.text = (DateTime.Now - startTime).ToString();
         return encodedMessage;
     }
 
-    public static string Decode(CipherVector cipherText)
+    public static string Decode(CipherVector cipherText, TMP_Text elapsed = null)
     {
+        var startTime = DateTime.Now;
         var (message, key, depth, direction, step, alphabetType) = UnwrapCipherVector(cipherText);
         var (charToIndexDict, alphabet, alphabetLen) = GetAlphabetParams(alphabetType);
 
@@ -42,6 +48,8 @@ public class Algorithm
                 indexOfDecodedLetter = (indexOfDecodedLetter + alphabetLen) % alphabetLen;
             decodedMessage += alphabet[indexOfDecodedLetter];
         }
+        if (elapsed != null)
+            elapsed.text = (DateTime.Now - startTime).ToString();
         return decodedMessage;
     }
     private static (string message, string key, int depth, DIRECTIONS direction, int step, ALPHABETS alphabetType) UnwrapCipherVector(CipherVector cipherText)

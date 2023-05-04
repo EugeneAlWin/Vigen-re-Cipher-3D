@@ -6,6 +6,7 @@ using static STATES;
 
 public abstract partial class AbstractInputsChecker : MonoBehaviour
 {
+    public TMP_Text elapsed;
     public TMP_InputField messageInput, keyInput, depthInput, stepInput, resultInput;
     public TMP_Dropdown directionDropdown;
     [field: SerializeField] public Button Encode { get; set; }
@@ -57,7 +58,7 @@ public abstract partial class AbstractInputsChecker : MonoBehaviour
             Step = int.Parse(CleanUp(CURRENT_STEP)),
             AlphabetType = CURRENT_ALPHABET
         };
-        string encodedMessage = Algorithm.Encode(cipherText);
+        string encodedMessage = Algorithm.Encode(cipherText, elapsed);
         resultInput.text = $"<color=#FFF>{encodedMessage}</color>";
     }
     internal virtual void DecodeClick()
@@ -73,7 +74,7 @@ public abstract partial class AbstractInputsChecker : MonoBehaviour
             Step = int.Parse(CleanUp(CURRENT_STEP)),
             AlphabetType = CURRENT_ALPHABET
         };
-        var decodedMessage = Algorithm.Decode(cipherText);
+        var decodedMessage = Algorithm.Decode(cipherText, elapsed);
         resultInput.text = $"<color=#FFF>{decodedMessage}</color>";
     }
 }
